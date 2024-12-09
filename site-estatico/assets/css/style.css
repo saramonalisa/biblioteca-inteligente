@@ -5,8 +5,8 @@ body{
     background-color: #172155 !important;
 }
 
-.bg-color{
-    color: white !important;
+.bg-laranja{
+    color: #FF914D;
 }
 
 .divider:after,
@@ -23,8 +23,4 @@ height: calc(100% - 73px);
 .h-custom {
 height: 100%;
 }
-}
-
-.round{
-    border-radius: 50px !important;
 }

@@ -8,102 +8,108 @@
 </head>
 <body>
 
-  <!-- Header -->
-    <nav class="navbar navbar-dark bg-color fixed-top">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#"><img src="./" alt="logo"></a>
-          <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-            <span class="navbar-toggler-icon border-0"></span>
-          </button>
-          <div class="offcanvas bg-color offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-            <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-              <button type="button" class="btn-close"  data-bs-theme="dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Configurações</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Meus empréstimos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Catálogo</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Sair</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </nav>
+<!-- Header -->
+<nav class="navbar navbar-dark shadow fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><img src="./assets/img/logo.png" alt="logo" height="40" width="40"></a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+      <span class="navbar-toggler-icon border-0"></span>
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title bg-laranja" id="offcanvasNavbarLabel">Menu</h5>
+        <button type="button" class="btn-close"  data-bs-theme="dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body navbar-dark">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link bg-laranja active" aria-current="page" href="#">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Configurações</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#">Meus empréstimos</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#">Catálogo</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#">Sair</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
 
-      <!-- Banner -->
-      <section class="vh-80">
-        <div class="container-fluid h-custom" id="login">
-          <div class="row d-flex justify-content-center align-items-center mt-5 p-4 h-100">
-            <div class="col-md-9 col-lg-6 col-xl-5">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                class="img-fluid" alt="Banner">
-            </div>
+<!-- Banner -->
+<section class="vh-80">
+  <div class="container-fluid h-custom" id="login">
+    <div class="row d-flex justify-content-center align-items-center mt-5 p-4 h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <h4 class="bg-laranja fw-bold">Boas vindas à</h4>
+        <h2 class="display-5 bg-laranja fw-bold">Biblioteca<br>Inteligente</h2>
+        <p class="lead text-white">Sistema online de gerenciamento de bibliotecas escolares.</p>
+      </div>
+  
+<!-- Login -->
+  <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+    <div class="text-center text-lg-start mt-4 pt-2">
+      <p class="small text-white fw-bold mt-2 pt-1 mb-0">Não tem uma conta? <a href="#!"
+          class="bg-laranja">Cadastre-se</a></p>
+    </div>            
+    <form>
 
-            <!-- Login -->
-            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-              <div class="text-center text-lg-start mt-4 pt-2">
-                <p class="small fw-bold mt-2 pt-1 mb-0">Não tem uma conta? <a href="#!"
-                    class="link-danger">Cadastre-se</a></p>
-              </div>            
-              <form>
-                <!-- Email input -->
-                <div data-mdb-input-init class="form-outline mb-4">
-                  <label class="form-label" for="form3Example3">E-mail, matrícula ou telefone</label>
-                  <input type="email" id="form3Example3" class="form-control rounded form-control-lg"
-                    placeholder="E-mail, matrícula ou telefone" />
-                </div>
-      
-                <!-- Password input -->
-                <div data-mdb-input-init class="form-outline mb-3">
-                  <label class="form-label" for="form3Example4">Senha</label>
-                  <input type="password" id="form3Example4" class="form-control form-control-lg"
-                    placeholder="Senha" />
-                </div>
-      
-                <div class="d-flex justify-content-between align-items-center">
-                  <a href="#!" class="text-white">Esqueceu ou deseja alterar sua senha?</a>
-                </div>
-      
-                <div class="text-center text-lg-start mt-4 pt-2">
-                  <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn round btn-primary btn-lg"
-                    style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-                </div>
-      
-              </form>
-            </div>
-          </div>
+      <!-- Email input -->
+      <div data-mdb-input-init class="form-outline mb-4">
+        <label class="form-label" for="form3Example3">E-mail, matrícula ou telefone</label>
+        <input type="email" id="form3Example3" class="form-control rounded form-control-lg"
+          placeholder="E-mail, matrícula ou telefone" />
+      </div>
+
+      <!-- Password input -->
+      <div data-mdb-input-init class="form-outline mb-3">
+        <label class="form-label" for="form3Example4">Senha</label>
+        <input type="password" id="form3Example4" class="form-control form-control-lg"
+          placeholder="Senha" />
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <a href="#!" class="bg-laranja">Esqueceu ou deseja alterar sua senha?</a>
+      </div>
+
+      <div class="text-center text-lg-start mt-4 pt-2">
+        <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn round btn-primary btn-lg"
+          style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+</div>
+            
+  <div class="py-5 bg-white">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-5">
+          <h2 class="display-5 text-black fw-bold">Sobre nós</h2>
+          <p class="lead text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
         </div>
-        <section class="py-5 bg-white">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-5">
-                <h2 class="display-5 text-black fw-bold">Sobre nós</h2>
-                <p class="lead text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
-              </div>
-              <div class="col-md-6 offset-md-1 text-black">
-                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
-                <p class="lead">ullamco laboris nisi ut a Lorem ipsum dolor sit amet,consectetur adipiscing eli ncididunt ullamco laboris nisi ut a Lorem ipsum dolor sit amet,consectetur adipiscing el Lorem ipsum dolor sit amet,consectetur adipiscing eli ncididunt ullamco laboris nisi ut a Lorem ipsum dolor sit amet,consectetur adipiscing el.</p>
-              </div>
-            </div>
-          </div>
+
+        <div class="col-md-6 offset-md-1 text-black">
+          <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+          <p class="lead">ullamco laboris nisi ut a Lorem ipsum dolor sit amet,consectetur adipiscing eli ncididunt ullamco laboris nisi ut a Lorem ipsum dolor sit amet,consectetur adipiscing el Lorem ipsum dolor sit amet,consectetur adipiscing eli ncididunt ullamco laboris nisi ut a Lorem ipsum dolor sit amet,consectetur adipiscing el.</p>
         </div>
-      </section>
-      <footer>
+
+      </div>
+    </div>
+  </div>
+  </section>
+  <footer>
         
-      </footer>
+  </footer>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>
