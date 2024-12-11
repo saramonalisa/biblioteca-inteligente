@@ -5,8 +5,12 @@ body{
     background-color: #172155 !important;
 }
 
+.bg-azul{
+    color:#172155;
+}
+
 .bg-laranja{
-    color: #FF914D;
+    color: #FF914D !important;
 }
 
 .divider:after,
