@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    <title>Biblioteca Inteligente - Início</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Biblioteca Inteligente - Início</title>
 </head>
 <body>
 
@@ -17,25 +19,25 @@
     </button>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title bg-laranja" id="offcanvasNavbarLabel">Menu</h5>
+        <h5 class="offcanvas-title bg-laranja fw-bold fs-3" id="offcanvasNavbarLabel">Menu</h5>
         <button type="button" class="btn-close"  data-bs-theme="dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body navbar-dark">
-        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+        <ul class="navbar-nav justify-content-end fs-4 flex-grow-1 pe-3">
           <li class="nav-item">
-            <a class="nav-link bg-laranja active" aria-current="page" href="#">Inicio</a>
+            <a class="nav-link bg-azul active" aria-current="page" href="index.html">Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Configurações</a>
+            <a class="nav-link bg-azul" href="#">Configurações</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="#">Meus empréstimos</a>
+              <a class="nav-link bg-azul" href="#">Meus empréstimos</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="#">Catálogo</a>
+              <a class="nav-link bg-azul" href="#">Catálogo</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="#">Sair</a>
+              <a class="nav-link bg-azul" href="#">Sair</a>
           </li>
         </ul>
       </div>
@@ -46,7 +48,7 @@
 <!-- Banner -->
 <section class="vh-80">
   <div class="container-fluid h-custom" id="login">
-    <div class="row d-flex justify-content-center align-items-center mt-5 p-4 h-100">
+    <div class="row d-flex justify-content-center align-items-center m-5 p-4 h-100">
       <div class="col-md-9 col-lg-6 col-xl-5">
         <h4 class="bg-laranja fw-bold">Boas vindas à</h4>
         <h2 class="display-5 bg-laranja fw-bold">Biblioteca<br>Inteligente</h2>
@@ -56,21 +58,21 @@
 <!-- Login -->
   <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
     <div class="text-center text-lg-start mt-4 pt-2">
-      <p class="small text-white fw-bold mt-2 pt-1 mb-0">Não tem uma conta? <a href="#!"
-          class="bg-laranja">Cadastre-se</a></p>
+      <p class="small text-white mt-2 pt-1 mb-3">Não tem uma conta? <a href="#!"
+          class="bg-laranja text-decoration-none">Cadastre-se</a></p>
     </div>            
     <form>
 
       <!-- Email input -->
-      <div data-mdb-input-init class="form-outline mb-4">
-        <label class="form-label" for="form3Example3">E-mail, matrícula ou telefone</label>
+      <div data-mdb-input-init class="form-outline mb-3">
+        <label class="form-label text-white" for="form3Example3">E-mail, matrícula ou telefone</label>
         <input type="email" id="form3Example3" class="form-control rounded form-control-lg"
           placeholder="E-mail, matrícula ou telefone" />
       </div>
 
       <!-- Password input -->
       <div data-mdb-input-init class="form-outline mb-3">
-        <label class="form-label" for="form3Example4">Senha</label>
+        <label class="form-label text-white" for="form3Example4">Senha</label>
         <input type="password" id="form3Example4" class="form-control form-control-lg"
           placeholder="Senha" />
       </div>
@@ -80,8 +82,8 @@
       </div>
 
       <div class="text-center text-lg-start mt-4 pt-2">
-        <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn round btn-primary btn-lg"
-          style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+        <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn rounded-pill btn-lg"
+          style="padding-left: 2.5rem; padding-right: 2.5rem; background-color: #FF914D;">Entrar</button>
       </div>
 
     </form>
@@ -91,7 +93,7 @@
             
   <div class="py-5 bg-white">
     <div class="container">
-      <div class="row">
+      <div class="row m-5">
 
         <div class="col-md-5">
           <h2 class="display-5 text-black fw-bold">Sobre nós</h2>
@@ -114,7 +116,7 @@
       <div class="row mt-4">
         <!--Grid column-->
         <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
-          <h5 class="text-uppercase mb-4">BIBLIOTECA INTELIGENTE</h5>
+          <h5 class="text-uppercase bg-laranja mb-4">BIBLIOTECA INTELIGENTE</h5>
   
           <p>
             At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
@@ -130,20 +132,17 @@
   
         <!--Grid column-->
         <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase mb-4 pb-1">CONTATO</h5>
+          <h5 class="text-uppercase bg-laranja mb-4 pb-1">CONTATO</h5>
   
           <ul class="fa-ul list-unstyled" style="margin-left: 1.65em;">
             <li class="mb-3">
-              <span class="fa-li"><i class="fas fa-home"></i></span><span class="ms-2">New York, NY 10012, US</span>
+              <span class="fa-li"><i class="fas fa-home"></i></span><span class="ms-2">Av. Potengi, São Paulo do Potengi - RN</span>
             </li>
             <li class="mb-3">
-              <span class="fa-li"><i class="fas fa-envelope"></i></span><span class="ms-2">info@example.com</span>
+              <span class="fa-li"><i class="fas fa-envelope"></i></span><span class="ms-2">seac.spp@ifrn.edu.br</span>
             </li>
             <li class="mb-3">
-              <span class="fa-li"><i class="fas fa-phone"></i></span><span class="ms-2">+ 01 234 567 88</span>
-            </li>
-            <li class="mb-3">
-              <span class="fa-li"><i class="fas fa-print"></i></span><span class="ms-2">+ 01 234 567 89</span>
+              <span class="fa-li"><i class="fas fa-phone"></i></span><span class="ms-2">(84) 4005-4112</span>
             </li>
           </ul>
         </div>
@@ -151,21 +150,21 @@
   
         <!--Grid column-->
         <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase mb-4">HORÁRIOS</h5>
+          <h5 class="text-uppercase bg-laranja mb-4">HORÁRIOS</h5>
   
           <table class="table text-center text-white">
             <tbody class="font-weight-normal">
               <tr>
-                <td>Mon - Thu:</td>
-                <td>8am - 9pm</td>
+                <td>Seg à Sex</td>
+                <td>07:00 às 18:00</td>
               </tr>
               <tr>
-                <td>Fri - Sat:</td>
-                <td>8am - 1am</td>
+                <td>Sab</td>
+                <td>08:00 às 17:00</td>
               </tr>
               <tr>
-                <td>Sunday:</td>
-                <td>9am - 10pm</td>
+                <td>Dom</td>
+                <td>08:00 às 12:00</td>
               </tr>
             </tbody>
           </table>
@@ -177,7 +176,7 @@
     <!-- Grid container -->
   
     <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">Copyright &copy; Biblioteca Inteligente {% now 'Y' %}</div>
+    <div class="text-center fw-bold p-3" style="background-color: #FF914D; color: #172155;">Copyright &copy; Biblioteca Inteligente {% now 'Y' %}</div>
     <!-- Copyright -->
   </footer>
 </body>
