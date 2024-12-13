@@ -1,0 +1,78 @@
+{% load static %}
+{% extends "base.html" %}
+
+{% block menu %}
+<li class="nav-item">
+    <a class="nav-link bg-azul" href="#">Entrar</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link bg-azul" href="#">Cadastrar-se</a>
+</li>
+{% endblock menu %}
+
+{% block content %}
+<!-- Banner -->
+<section class="vh-80">
+  <div class="container-fluid h-custom" id="login">
+    <div class="row d-flex justify-content-center align-items-center m-5 p-4 h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <h4 class="bg-laranja fw-bold">Boas vindas à</h4>
+        <h2 class="display-5 bg-laranja fw-bold">Biblioteca<br>Inteligente</h2>
+        <p class="lead text-white">Sistema online de gerenciamento de bibliotecas escolares.</p>
+      </div>
+  
+<!-- Login -->
+  <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+    <div class="text-center text-lg-start mt-4 pt-2">
+      <p class="small text-white mt-2 pt-1 mb-3">Não tem uma conta? <a href="#!"
+          class="bg-laranja text-decoration-none">Cadastre-se</a></p>
+    </div>            
+    <form>
+
+      <!-- Email input -->
+      <div data-mdb-input-init class="form-outline mb-3">
+        <label class="form-label text-white" for="form3Example3">E-mail, matrícula ou telefone</label>
+        <input type="email" id="form3Example3" class="form-control rounded form-control-lg"
+          placeholder="E-mail, matrícula ou telefone" />
+      </div>
+
+      <!-- Password input -->
+      <div data-mdb-input-init class="form-outline mb-3">
+        <label class="form-label text-white" for="form3Example4">Senha</label>
+        <input type="password" id="form3Example4" class="form-control form-control-lg"
+          placeholder="Senha" />
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <a href="#!" class="bg-laranja">Esqueceu ou deseja alterar sua senha?</a>
+      </div>
+
+      <div class="text-center text-lg-start mt-4 pt-2">
+        <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn rounded-pill btn-lg"
+          style="padding-left: 2.5rem; padding-right: 2.5rem; background-color: #FF914D;">Entrar</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+</div>
+            
+  <div class="py-5 bg-white">
+    <div class="container">
+      <div class="row m-5">
+
+        <div class="col-md-5">
+          <h2 class="display-5 text-black fw-bold">Sobre nós</h2>
+          <p class="lead text-black">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+        </div>
+
+        <div class="col-md-6 offset-md-1 text-black">
+          <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+          <p class="lead">ullamco laboris nisi ut a Lorem ipsum dolor sit amet,consectetur adipiscing eli ncididunt ullamco laboris nisi ut a Lorem ipsum dolor sit amet,consectetur adipiscing el Lorem ipsum dolor sit amet,consectetur adipiscing eli ncididunt ullamco laboris nisi ut a Lorem ipsum dolor sit amet,consectetur adipiscing el.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </section>
+{% endblock content %}
