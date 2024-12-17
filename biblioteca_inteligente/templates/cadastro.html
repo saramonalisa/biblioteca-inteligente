@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block menu %}
+  <li class="nav-item">
+    <a class="nav-link bg-azul" href="{% url 'index' %}">Entrar</a>
+  </li>
+  <li>
+    <a class="nav-link bg-azul" href="{% url 'cadastro' %}">Cadastrar-se</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link bg-azul" href="{% url 'index' %}">Sair</a>
+  </li>
+{% endblock menu %}
+
+{% block content %}
+<section class="vh-80">
+    <div class="container-fluid h-custom" id="login">
+        <div class="row d-flex justify-content-center align-items-center m-5 p-4 h-100">
+            <div class="text-center pt-3 mt-3">
+                <img src="{% static './img/logo.png' %}" height="80px" width="80px" alt="">
+            </div>    
+                <div class="container register-form">
+                    <div class="form"> 
+                        <div class="form-content">
+                          <div class="pyxb-4 pyxb-md-5">
+                            <h4 class="text-white mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Preencha os campos abaixo:</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingInput" placeholder="">
+                                    <label for="floatingInput">Nome completo</label>
+                                  </div>
+                                  <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="floatingInput" placeholder="">
+                                    <label for="floatingInput">Email</label>
+                                  </div>
+                                  <div class="form-floating mb-3">
+                                    <input type="password" class="form-control" id="floatingInput" placeholder="">
+                                    <label for="floatingInput">Senha</label>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                      <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="floatingInput" placeholder="">
+                                        <label for="floatingInput">Matricula</label>
+                                      </div>
+                                      <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="floatingInput" placeholder="">
+                                        <label for="floatingInput">Telefone</label>
+                                      </div>
+                                      <div class="form-floating mb-3">
+                                        <input type="password" class="form-control" id="floatingInput" placeholder="">
+                                        <label for="floatingInput">Confirme a senha</label>
+                                      </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="text-center text-lg-start mt-4 pt-2">
+                              <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn rounded-pill btn-lg"
+                                style="padding-left: 2.5rem; padding-right: 2.5rem; background-color: #FF914D;">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+              </div>
+    
+        </div>
+    </div>
+</section>
+{% endblock content %}

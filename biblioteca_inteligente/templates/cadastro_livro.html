@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Cadastrar livro{% endblock title %}
+
+{% block menu %}{% endblock menu %}
+
+{% block content %}
+<section class="vh-80">
+    <div class="container-fluid h-custom" id="login">
+      <div class="row d-flex justify-content-center align-items-center m-3 p-3 h-100">
+        <div class="row text-start pt-3 mt-5">
+          <div class="container text-start">
+            <h4 class="bg-laranja"><span><a href="#"><i class="fas fa-arrow-left mx-2" style="color: #FF914D;"></i></a></span>Cadastrar livro</h4>
+          </div>
+        </div>
+                <div class="container register-form">
+                    <div class="form"> 
+                        <div class="form-content">
+                          <div class="p-2 p-md-3">
+                            <h4 class="text-white mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Preencha os campos abaixo:</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="floatingInput" placeholder="">
+                                        <label for="floatingInput">Titulo</label>
+                                      </div>
+                                      <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="floatingInput" placeholder="">
+                                        <label for="floatingInput">Autor</label>
+                                      </div>
+                                      <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="floatingInput" placeholder="">
+                                        <label for="floatingInput">Editora</label>
+                                      </div>
+                                </div>
+                                <div class="col-md-6">
+                                      <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="floatingInput" placeholder="">
+                                        <label for="floatingInput">ISBN</label>
+                                      </div>
+                                      <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="floatingInput" placeholder="">
+                                        <label for="floatingInput">Data de publicação</label>
+                                      </div>
+                                      <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="floatingInput" placeholder="">
+                                        <label for="floatingInput">Classificação</label>
+                                      </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Capa</span>
+                                    <input type="file" class="form-control" id="inputGroupFile02">
+                                    <label class="input-group-text" for="inputGroupFile02">Enviar</label>
+                                  </div>                                
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="input-group">
+                                    <span class="input-group-text">Sinopse</span>
+                                    <textarea class="form-control" aria-label="With textarea"></textarea>
+                                  </div>                                  
+                              </div>
+                          </div>
+                            <div class="text-center text-lg-start">
+                              <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn rounded-pill btn-lg"
+                                style="padding-left: 2.5rem; padding-right: 2.5rem; background-color: #FF914D;">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+              </div>
+    
+        </div>
+    </div>
+</section>
+{% endblock content %}

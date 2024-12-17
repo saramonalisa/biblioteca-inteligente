@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'biblioteca_inteligente'
+    'biblioteca_inteligente',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

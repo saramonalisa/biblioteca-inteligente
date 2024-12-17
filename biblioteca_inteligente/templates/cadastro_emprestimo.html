@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Cadastrar empréstimo{% endblock title %}
+
+{% block menu %}{% endblock menu %}
+
+{% block content %}
+<section class="vh-80">
+    <div class="container-fluid h-custom" id="login"> 
+      <div class="row d-flex justify-content-center align-items-center m-3 p-3 h-100">
+        <div class="row text-start pt-3 mt-5">
+          <div class="container text-start">
+            <h4 class="bg-laranja"><span><a href="#"><i class="fas fa-arrow-left mx-2" style="color: #FF914D;"></i></a></span>Cadastrar empréstimo</h4>
+          </div>
+        </div>
+                <div class="container justify-content-center register-form">
+                    <div class="form"> 
+                        <div class="form-content">
+                          <div class="p-2 p-md-2">
+                            <h4 class="text-white mb-4 pb-2 pb-md-0 mb-md-5 px-md-2 text-center">Preencha os campos abaixo:</h4>
+                            <div class="row justify-content-center">
+                                <div class="col-md-8">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="floatingInput" placeholder="">
+                                        <label for="floatingInput">Matrícula</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="floatingInput" placeholder="">
+                                        <label for="floatingInput">Livro</label>
+                                      </div>
+                                      <div class="form-floating mb-3">
+                                        <input type="date" class="form-control" id="floatingInput" placeholder="">
+                                        <label for="floatingInput">Data do empréstimo</label>
+                                      </div>
+                                    <div class="text-center text-lg-start mt-4 pt-2">
+                                      <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn justify-content-center rounded-pill btn-lg"
+                                        style="padding-left: 2.5rem; padding-right: 2.5rem; background-color: #FF914D;">Confirmar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+              </div>
+    
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -1,13 +1,16 @@
-{% load static %}
 {% extends "base.html" %}
+{% load static %}
 
 {% block menu %}
-<li class="nav-item">
-    <a class="nav-link bg-azul" href="#">Entrar</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link bg-azul" href="#">Cadastrar-se</a>
-</li>
+  <li class="nav-item">
+    <a class="nav-link bg-azul" href="{% url 'index' %}">Entrar</a>
+  </li>
+  <li>
+    <a class="nav-link bg-azul" href="{% url 'cadastro' %}">Cadastrar-se</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link bg-azul" href="{% url 'index' %}">Sair</a>
+  </li>
 {% endblock menu %}
 
 {% block content %}
@@ -30,17 +33,15 @@
     <form>
 
       <!-- Email input -->
-      <div data-mdb-input-init class="form-outline mb-3">
-        <label class="form-label text-white" for="form3Example3">E-mail, matrícula ou telefone</label>
-        <input type="email" id="form3Example3" class="form-control rounded form-control-lg"
-          placeholder="E-mail, matrícula ou telefone" />
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="floatingInput" placeholder="">
+        <label for="floatingInput">Email, matrícula ou telefone</label>
       </div>
 
       <!-- Password input -->
-      <div data-mdb-input-init class="form-outline mb-3">
-        <label class="form-label text-white" for="form3Example4">Senha</label>
-        <input type="password" id="form3Example4" class="form-control form-control-lg"
-          placeholder="Senha" />
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="floatingInput" placeholder="">
+        <label for="floatingInput">Senha</label>
       </div>
 
       <div class="d-flex justify-content-between align-items-center">
@@ -49,7 +50,9 @@
 
       <div class="text-center text-lg-start mt-4 pt-2">
         <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn rounded-pill btn-lg"
-          style="padding-left: 2.5rem; padding-right: 2.5rem; background-color: #FF914D;">Entrar</button>
+          style="padding-left: 2.5rem; padding-right: 2.5rem; background-color: #FF914D;">
+          <a href="{% url 'inicio' %}" class="text-decoration-none" style="color:#172155;">Entrar</a>
+        </button>
       </div>
 
     </form>
