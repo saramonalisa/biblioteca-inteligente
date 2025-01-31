@@ -1,22 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User, AbstractBaseUser
-
-class User(AbstractBaseUser):
-    username = models.CharField(max_length=25, unique=True)
-    nome = models.CharField(max_length=100)
-    email = models.CharField(max_length=100)
-    matricula = models.CharField(max_length=20)
-    telefone = models.CharField(max_length=15)
-
-    def __str__(self):
-        return self.username
-
-class Perfil(models.Model):
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='media/')
-
-    def __str__(self):
-        return self.usuario.username
+from django.contrib.auth.models import User
 
 class Editora(models.Model):
     editora = models.CharField(max_length=100)
@@ -50,7 +33,7 @@ class Livro(models.Model):
         return self.titulo
     
 class Emprestimo(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    usuario = models.ForeignKey('settings.AUTH_USER_MODEL', on_delete=models.CASCADE)
     livro = models.ManyToManyField(Livro)
     data = models.DateTimeField(auto_now_add=True)
     

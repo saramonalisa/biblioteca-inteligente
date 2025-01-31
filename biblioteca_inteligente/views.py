@@ -1,28 +1,20 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms.models import model_to_dict
 from .models import Livro, Emprestimo
-from .forms import CadastroForm, LivroForm, EmprestimoForm
-from django.contrib.auth.decorators import login_required
+from .forms import LivroForm, EmprestimoForm
+from django.contrib.auth.decorators import login_required, permission_required
 
 def index(request):
     context = {}
     return render(request, "index.html", context)
-
-def cadastro(request):
-    context = {}
-    if request.method == 'POST':
-        form = CadastroForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')
-    
-    return render(request, 'cadastro.html', context)
 
 @login_required
 def inicio(request):
     context = {}
     return render(request, "inicio.html", context)
 
+@login_required
+@permission_required('biblioteca_inteligente.add_livro')
 def cadastro_livro(request):
     context = {}
 
@@ -38,6 +30,8 @@ def cadastro_livro(request):
 
     return render(request, "cadastro_livro.html", context)
 
+@login_required
+@permission_required('biblioteca_inteligente.add_emprestimo')
 def cadastro_emprestimo(request):
     context = {}
 
@@ -59,12 +53,14 @@ def catalogo(request):
     }
     return render(request, "catalogo.html", context)
 
+@login_required
 def ver_emprestimos(request):
     context = {
         "emprestimo": Emprestimo.objects.all()
     }
     return render(request, "ver_emprestimos.html", context)
 
+@login_required
 def configuracoes(request):
     context = {}
     return render(request, "configuracoes.html", context)
