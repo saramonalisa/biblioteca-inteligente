@@ -1,8 +1,29 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import User, Livro, Emprestimo
+from .models import Usuario, Livro, Emprestimo
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Submit
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+
+class CadastroForm(UserCreationForm):
+    class Meta:
+        model = Usuario
+        fields = ['username', 'email', 'nome', 'matricula', 'telefone'] 
+
+class UsuarioCreationForm(UserCreationForm):
+    class Meta:
+        model = Usuario
+        fields = ["username", "email", "avatar", "first_name", "last_name", "telefone", "matricula", "nome"]
+
+class UsuarioChangeForm(UserChangeForm):
+    password = None
+
+    class Meta:
+        model = Usuario
+        fields = ["username", "email", "avatar", "first_name", "last_name", "telefone"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 class LivroForm(forms.ModelForm):
     class Meta:
@@ -41,3 +62,9 @@ class EmprestimoForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.layout = Layout()
+        
+class classificacaoForm(forms.Form):
+    classificacoes = forms.ChoiceField(choices=Livro.CLASSIFICACOES)
+
+class GeneroForm(forms.Form):
+    generos = forms.ChoiceField(choices=Livro.GENEROS)

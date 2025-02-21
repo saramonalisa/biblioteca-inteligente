@@ -31,14 +31,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'biblioteca_inteligente',
-    'usuarios',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'biblioteca_inteligente',
     'crispy_forms',
     'crispy_bootstrap5',
 ]
@@ -133,8 +132,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-AUTH_USER_MODEL = "usuarios.User"
-
+AUTH_USER_MODEL = "biblioteca_inteligente.Usuario"
+LOGIN_URL = "login"
 LOGOUT_REDIRECT_URL = "index"
-
 LOGIN_REDIRECT_URL = "inicio"

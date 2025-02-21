@@ -8,6 +8,10 @@ def index(request):
     context = {}
     return render(request, "index.html", context)
 
+def cadastro(request):
+    context = {}
+    return render(request, "cadastro.html", context)
+
 @login_required
 def inicio(request):
     context = {}
