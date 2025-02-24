@@ -15,7 +15,7 @@
 
 {% block content %}
 <!-- Banner -->
-<section class="vh-80">
+<div class="vh-80">
   <div class="px-4 py-5 my-5 text-center">
     <img class="d-block mx-auto mb-4" src="{% static './img/logo.png' %}" alt="logo" width="70" height="70">
     <h1 class="display-5 fw-bold bg-laranja">Biblioteca Inteligente</h1>
@@ -26,6 +26,7 @@
         <button type="button" class="btn btn-outline btn-lg px-4 rounded-pill" style="border-color:#FF914D;"><a class="text-decoration-none" style="color:#FF914D;" href="{% url 'cadastro' %}">Cadastre-se</a></button>
       </div>
   </div>
+</div>
             
   <div class="py-5 bg-white w-100">
     <div class="container fluid">
@@ -44,5 +45,4 @@
       </div>
     </div>
   </div>
-  </section>
 {% endblock content %}

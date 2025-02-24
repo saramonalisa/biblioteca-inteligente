@@ -84,7 +84,7 @@ class Livro(models.Model):
 class Emprestimo(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     livro = models.ManyToManyField(Livro)
-    data = models.DateTimeField(auto_now_add=True)
+    data = models.DateField(auto_now_add=True)
     
     def __str__(self):
         return self.usuario.nome

@@ -23,30 +23,14 @@
                 </tr>
               </thead>
               <tbody>
+                {% for emprestimo in emprestimos %}
                 <tr>
-                  <th scope="row"></th>
-                  <td></td>
-                  <td></td>
+                  <th scope="row">{{ emprestimo.livro }}</th>
+                  <td>{{ emprestimo.data }}</td>
+                  <td>{{ emprestimo.data_devolucao }}</td>
                   <td>Pendente<button class="btn rounded-pill mx-3" style="background-color: #FF914D;">Renovar</button></td>
                 </tr>
-                <tr>
-                  <th scope="row"></th>
-                  <td></td>
-                  <td></td>
-                  <td>Entregue<button class="btn rounded-pill mx-3" style="background-color: #FF914D;">Ver livro</button></td>
-                </tr>
-                <tr>
-                  <th scope="row"></th>
-                  <td></td>
-                  <td></td>
-                  <td>Entregue<button class="btn rounded-pill mx-3" style="background-color: #FF914D;">Ver livro</button></td>
-                </tr>
-                <tr>
-                  <th scope="row"></th>
-                  <td></td>
-                  <td></td>
-                  <td>Entregue<button class="btn rounded-pill mx-3" style="background-color: #FF914D;">Ver livro</button></td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>

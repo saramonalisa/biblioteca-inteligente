@@ -16,7 +16,7 @@ class CadastroForm(UserCreationForm):
         self.helper.form_method = 'post'
         self.helper.layout = Layout(
             Row(
-                Column('username', css_class='form-group col-md-6 mb-0'),
+                Column('username', css_class='form-group text-white col-md-6 mb-0'),
                 Column('email', css_class='form-group col-md-6 mb-0'),
                 css_class='form-row'
             ),

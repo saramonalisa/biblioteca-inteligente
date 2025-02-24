@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms.models import model_to_dict
-from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
+from django.core.paginator import Paginator
+from datetime import timedelta
 from .models import Livro, Emprestimo
 from .forms import LivroForm, EmprestimoForm, CadastroForm
-from django.contrib.auth.decorators import login_required, permission_required
 
 def index(request):
     context = {}
@@ -126,7 +128,7 @@ def cadastro_emprestimo(request):
 @login_required
 def ver_emprestimos(request):
     context = {
-        "emprestimo": Emprestimo.objects.all()
+        "emprestimos": Emprestimo.objects.all()
     }
     return render(request, "ver_emprestimos.html", context)
 

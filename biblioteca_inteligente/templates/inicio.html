@@ -20,6 +20,27 @@
               </button>
             </div>
           </div>
+          <h4 class="bg-laranja mt-4">Catálogo de Livros</h4>
+          <div class="row">
+              {% for livro in livros %}
+              <div class="col-md-4">
+                  <div class="card mb-4 shadow-sm">
+                      <div class="card-body">
+                          <h5 class="card-title">{{ livro.titulo }}</h5>
+                          <p class="card-text">{{ livro.autor }}</p>
+                          <p class="card-text">{{ livro.descricao }}</p>
+                          <div class="d-flex justify-content-between align-items-center">
+                              <div class="btn-group">
+                                  <button type="button" class="btn btn-sm btn-outline-secondary">Ver detalhes</button>
+                              </div>
+                              <small class="text-muted">{{ livro.ano_publicacao }}</small>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              {% endfor %}
+          </div>
+      </div>
           <div class="m-5">
             <h4 class="justify-content-start bg-laranja">Avisos</h4>
             <div class="alert alert-light" role="alert">
