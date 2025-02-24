@@ -8,12 +8,29 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 class CadastroForm(UserCreationForm):
     class Meta:
         model = Usuario
-        fields = ['username', 'email', 'nome', 'matricula', 'telefone'] 
+        fields = ['username', 'email', 'nome', 'matricula', 'telefone']
 
-class UsuarioCreationForm(UserCreationForm):
-    class Meta:
-        model = Usuario
-        fields = ["username", "email", "avatar", "first_name", "last_name", "telefone", "matricula", "nome"]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.layout = Layout(
+            Row(
+                Column('username', css_class='form-group col-md-6 mb-0'),
+                Column('email', css_class='form-group col-md-6 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('nome', css_class='form-group col-md-6 mb-0'),
+                Column('matricula', css_class='form-group col-md-6 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('telefone', css_class='form-group col-md-6 mb-0'),
+                css_class='form-row'
+            ),
+            Submit('submit', 'Cadastrar')
+        )
 
 class UsuarioChangeForm(UserChangeForm):
     password = None

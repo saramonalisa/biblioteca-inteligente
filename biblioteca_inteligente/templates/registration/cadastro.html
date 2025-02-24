@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static crispy_forms_tags %}
+{% block title %}Cadastre-se{% endblock title %}
+
+{% block menu %}
+  <li class="nav-item">
+    <a class="nav-link bg-azul" href="{% url 'index' %}">Entrar</a>
+  </li>
+  <li>
+    <a class="nav-link bg-azul" href="{% url 'cadastro' %}">Cadastrar-se</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link bg-azul" href="{% url 'index' %}">Sair</a>
+  </li>
+{% endblock menu %}
+
+{% block content %}
+<section class="vh-80">
+    <div class="container-fluid h-custom" id="login">
+        <div class="row d-flex justify-content-center align-items-center m-5 p-4 h-100">
+            <div class="text-center pt-3 mt-3">
+                <img src="{% static 'img/logo.png' %}" height="80px" width="80px" alt="">
+            </div>    
+            <div class="container register-form">
+                <div class="form"> 
+                    <div class="form-content">
+                        <div class="py-4 py-md-5">
+                            <h4 class="text-white mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Preencha os campos abaixo:</h4>
+                            <form method="post" action="{% url 'cadastro' %}">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

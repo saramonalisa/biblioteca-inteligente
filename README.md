@@ -5,3 +5,5 @@ Esse é um software de gerenciamento para registrar movimentações de livros em
 - Maria Clara 
 - Maria Gabriely
 - Sara Monalisa
+##
+*IFRN SPP.* 2025

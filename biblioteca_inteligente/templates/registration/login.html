@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static crispy_forms_tags %}
+{% block title %}Entrar{% endblock title %}
+
+{% block menu %}
+  <li class="nav-item">
+    <a class="nav-link bg-azul" href="{% url 'index' %}">Entrar</a>
+  </li>
+  <li>
+    <a class="nav-link bg-azul" href="{% url 'cadastro' %}">Cadastrar-se</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link bg-azul" href="{% url 'index' %}">Sair</a>
+  </li>
+{% endblock menu %}
+{% block content %}
+<section class="vh-80">
+    <div class="container-fluid h-custom" id="login">
+        <div class="row d-flex justify-content-center align-items-center m-5 p-4 h-100">
+            <div class="text-center pt-3 mt-5">
+                <img src="{% static 'img/logo.png' %}" height="80px" width="80px" alt="">
+            </div>    
+                <div class="container register-form">
+                    <div class="form"> 
+                        <div class="form-content">
+                          <h4 class="text-white text-center mb-4">Preencha os campos abaixo:</h4>
+                          <div class="pyxb-4 pyxb-md-5 justify-content-center align-items-center">
+                            <div class="text-center mb-3">
+                              <p class="text-white">Não tem uma conta?<a href="{% url 'cadastro' %}" class="bg-laranja">Cadastre-se</a></p>
+                            </div>
+                              <form method="post" action="{% url 'login' %}">
+                                {% csrf_token %}
+                                {{ forms }}
+                              <div class="row justify-content-center">
+                                <div class="col-md-6">
+                                  <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingInput" placeholder="">
+                                    <label for="floatingEmail">E-mail</label>
+                                  </div>
+                                  <div class="form-floating mb-3">
+                                    <input type="password" class="form-control" id="floatingInput" placeholder="">
+                                    <label for="floatingPassword">Senha</label>
+                                  </div>
+                                </div>
+                                <div class="text-center mt-1">
+                                  <a href="{% url 'password_reset' %}" class="bg-laranja text-decoration-none">Esqueceu a senha?</a></div>
+                              </div>
+                            </div>
+                            <div class="text-center text-lg-start mt-4 pt-2">
+                              <button  type="submit" class="btn rounded-pill btn-lg"
+                                style="padding-left: 2.5rem; padding-right: 2.5rem; background-color: #FF914D;">Confirmar</button>
+                            </div>
+                          </form>
+                              </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+    
+              </div>
+    
+        </div>
+    </div>
+</section>
+{% endblock content %}
