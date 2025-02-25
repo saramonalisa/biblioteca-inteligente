@@ -25,11 +25,21 @@
               <tbody>
                 {% for emprestimo in emprestimos %}
                 <tr>
-                  <th scope="row">{{ emprestimo.livro }}</th>
+                  <th scope="row">{% for livro in emprestimo.livro.all %}
+                    {{ livro.titulo }}{% if not forloop.last %}, {% endif %}
+                  {% endfor %}</th>
                   <td>{{ emprestimo.data }}</td>
                   <td>{{ emprestimo.data_devolucao }}</td>
-                  <td>Pendente<button class="btn rounded-pill mx-3" style="background-color: #FF914D;">Renovar</button></td>
-                </tr>
+                  <td>
+                    {% if emprestimo.devolvido == True %}
+                    Devovido
+                    {% else %}
+                    Pendente
+                    {% endif %}
+                    {% if emprestimo.devolvido == False %}
+                    <button class="btn rounded-pill mx-3" style="background-color: #FF914D;">Renovar</button></td>
+                    {% endif %}
+                  </tr>
                 {% endfor %}
               </tbody>
             </table>

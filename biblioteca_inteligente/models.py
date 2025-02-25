@@ -1,20 +1,15 @@
+from django import forms
 from django.db import models
-
 from django.contrib.auth.models import AbstractUser
+import datetime
 
 class Usuario(AbstractUser):
     nome = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    matricula = models.CharField(max_length=20)
     telefone = models.CharField(max_length=14)
-    avatar = models.ImageField(
-        upload_to="usuarios/avatar/",
-        blank=True,
-        null=True,
-    ) 
 
     def __str__(self):
-        return self.first_name
+        return self.username
 
 class Editora(models.Model):
     editora = models.CharField(max_length=100)
@@ -50,6 +45,7 @@ class Livro(models.Model):
     AVENTURA = "AD"
     INFANTIL = "CH"
     JOVEM_ADULTO = "YA"
+    FICCAO_CIENTIFICA = "SF"
     OUTROS = "OU"
 
     GENEROS = {
@@ -65,6 +61,7 @@ class Livro(models.Model):
         AVENTURA: "Aventura",
         INFANTIL: "Infantil",
         JOVEM_ADULTO: "Jovem Adulto",
+        FICCAO_CIENTIFICA: "Ficção Científica",
         OUTROS: "Outros",
     }
     
@@ -85,6 +82,12 @@ class Emprestimo(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     livro = models.ManyToManyField(Livro)
     data = models.DateField(auto_now_add=True)
+    devolvido = models.BooleanField(default=False)
     
     def __str__(self):
-        return self.usuario.nome
+        livros = ', '.join([livro.titulo for livro in self.livro.all()])
+        return f'{self.usuario.username} | {livros} | {self.data}'
+    
+    @property
+    def data_devolucao(self):
+        return self.data + datetime.timedelta(days=15)

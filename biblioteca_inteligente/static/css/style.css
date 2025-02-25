@@ -60,3 +60,7 @@ height: 100%;
 .form-control{
     border-radius:1.5rem;
 }
+
+.form-control.text-white {
+    color: white !important;
+}

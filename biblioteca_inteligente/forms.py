@@ -5,74 +5,46 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Submit
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
-class CadastroForm(UserCreationForm):
+class UserCreationForm(UserCreationForm):
     class Meta:
         model = Usuario
-        fields = ['username', 'email', 'nome', 'matricula', 'telefone']
+        fields = ['username', 'email', 'nome', 'telefone', 'password1', 'password2']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome de usuário', 'id': 'floatingInput'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email', 'id': 'floatingInput'}),
+            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome', 'id': 'floatingInput'}),
+            'telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Telefone', 'id': 'floatingInput'}),
+            'password1': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Senha', 'id': 'floatingPassword'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirme a senha', 'id': 'floatingPassword'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'post'
-        self.helper.layout = Layout(
-            Row(
-                Column('username', css_class='form-group text-white col-md-6 mb-0'),
-                Column('email', css_class='form-group col-md-6 mb-0'),
-                css_class='form-row'
-            ),
-            Row(
-                Column('nome', css_class='form-group col-md-6 mb-0'),
-                Column('matricula', css_class='form-group col-md-6 mb-0'),
-                css_class='form-row'
-            ),
-            Row(
-                Column('telefone', css_class='form-group col-md-6 mb-0'),
-                css_class='form-row'
-            ),
-            Submit('submit', 'Cadastrar')
-        )
+        self.helper.layout = Layout()
 
 class UsuarioChangeForm(UserChangeForm):
     password = None
 
     class Meta:
         model = Usuario
-        fields = ["username", "email", "avatar", "first_name", "last_name", "telefone"]
+        fields = ["username", "email", "nome", "telefone"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-class LivroForm(forms.ModelForm):
-    class Meta:
-        model = Livro
-        fields = "__all__"
-        
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
-        self.helper.layout = Layout(
-            Row(
-                Column('nome', css_class='col-md-6'),
-                Column('email', css_class='col-md-6'),
-                css_class='row'
-            ),
-            Row(
-                Column('telefone', css_class='col-md-6'),
-                Column('cidade', css_class='col-md-6'),
-                css_class='row'
-            ),
-            Row(
-                Column('mensagem', css_class='col-12'),
-                css_class='row'
-            ),
-            Submit('submit', 'Enviar', css_class='btn btn-primary text-uppercase')
-        )
 
 class EmprestimoForm(forms.ModelForm):
+    
     class Meta:
         model = Emprestimo
         fields = "__all__"
+        widgets = {
+            'usuario': forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'Nome de usuário', 'id': 'floatingInput'}),
+            'livro': forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'Livro', 'id': 'floatingLivro'}),
+            'data': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Data', 'id': 'floatingData'}),
+            'devolvido': forms.CheckboxInput(attrs={'class': 'form-check-input', 'id': 'flexCheckDefault'}),
+        }
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -80,6 +52,25 @@ class EmprestimoForm(forms.ModelForm):
         self.helper.form_method = 'post'
         self.helper.layout = Layout()
         
+class LivroForm(forms.ModelForm):
+    class Meta:
+        model = Livro
+        fields = "__all__"
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome de usuário', 'id': 'floatingInput'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email', 'id': 'floatingInput'}),
+            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome', 'id': 'floatingInput'}),
+            'telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Telefone', 'id': 'floatingInput'}),
+            'password1': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Senha', 'id': 'floatingPassword'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirme a senha', 'id': 'floatingPassword'}),
+        }
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.layout = Layout()
+
 class classificacaoForm(forms.Form):
     classificacoes = forms.ChoiceField(choices=Livro.CLASSIFICACOES)
 
