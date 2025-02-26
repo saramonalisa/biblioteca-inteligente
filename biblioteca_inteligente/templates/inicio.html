@@ -21,20 +21,22 @@
             </div>
           </div>
           <h4 class="bg-laranja mt-4">Catálogo de Livros</h4>
-          <div class="row">
-              {% for livro in livros %}
-              <div>{{ livro.capa }}
-                <p>{{livro.titulo}} - {{ livro.autor }} ({{ livro.publicação }})</p>
-              </div>
-                          <div class="d-flex justify-content-between align-items-center">
-                              <div class="btn-group">
-                                  <button type="button" class="btn btn-sm btn-outline-secondary">Ver detalhes</button>
-                              </div>
-                          
-                          </div>
+          <div class="row row-cols-1 row-cols-md-2 mx-3 d-flex justify-content-center">
+            {% for livro in livros %}
+            <div class="card bg-white text-light" style="width: 18rem;">
+              {% if livro.capa %}
+                <img src="{% static livro.capa %}" class="card-img-top" alt="{{ livro.titulo }}">
+              {% else %}
+              <img src="{% static 'img/placeholder.png' %}" class="card-img-top" alt="{{ livro.titulo }}">
+              {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-black">{{ livro.titulo }} - {{ livro.autor }} ({{ livro.publicacao }})</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-secondary bg-laranja"><a href="{% url 'detalhar_livro' %}"></a>Ver detalhes</button>
                       </div>
-                  </div>
-              </div>
+                </div>
+            </div>
               {% endfor %}
           </div>
       </div>

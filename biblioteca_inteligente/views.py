@@ -101,10 +101,10 @@ def editar_livro(request, id_livro):
         form = LivroForm(request.POST, instance=livro)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('inicio')
     else:
         form = LivroForm(instance=livro)
-    return render(request, 'criar.html', {'form': form})
+    return render(request, 'editar_livro.html', {'form': form})
 
 @login_required
 @permission_required('biblioteca_inteligente.add_emprestimo', raise_exception=True)
@@ -115,7 +115,7 @@ def cadastro_emprestimo(request):
         form = EmprestimoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('inicio')
         else:
             context["form"] = form # esse é o form com os erros
     else:
@@ -124,11 +124,32 @@ def cadastro_emprestimo(request):
     return render(request, "cadastro_emprestimo.html", context)
 
 @login_required
+@permission_required('app.change_emprestimo', raise_exception=True)
+def editar_emprestimo(request, id_emprestimo):
+    emprestimo = get_object_or_404(Emprestimo, pk=id_emprestimo)
+    if request.method == 'POST':
+        form = EmprestimoForm(request.POST, instance=emprestimo)
+        if form.is_valid():
+            form.save()
+            return redirect('inicio')
+    else:
+        form = LivroForm(instance=emprestimo)
+    return render(request, 'editar_emprestimo.html', {'form': form})
+
+@login_required
 def ver_emprestimos(request):
     context = {
         "emprestimos": Emprestimo.objects.filter(usuario=request.user)
     }
     return render(request, "ver_emprestimos.html", context)
+
+@login_required
+@permission_required('biblioteca_inteligente.change_emprestimo')
+def gerenciar_emprestimos(request):
+    context = {
+        "emprestimos": Emprestimo.objects.all
+    }
+    return render(request, "gerenciar_emprestimos.html", context)
 
 @login_required
 @permission_required('biblioteca_inteligente.change_emprestimo')

@@ -8,7 +8,11 @@ urlpatterns = [
     path('inicio/', views.inicio, name='inicio'),
     path('cadastro/', views.cadastro, name='cadastro'),
     path('cadastro_livro/', views.cadastro_livro, name='cadastro_livro'),
+    path('editar_livro/', views.editar_livro, name='editar_livro'),
+    path('detalhar_livro/', views.detalhar_livro, name='detalhar_livro'),
     path('cadastro_emprestimo/', views.cadastro_emprestimo, name='cadastro_emprestimo'),
+    path('editar_emprestimo/', views.editar_emprestimo, name='editar_emprestimo'),
     path('ver_emprestimos/', views.ver_emprestimos, name='ver_emprestimos'),
+    path('gerenciar_emprestimos/', views.gerenciar_emprestimos, name='gerenciar_emprestimos'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
