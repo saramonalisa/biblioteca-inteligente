@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static crispy_forms_tags %}
+{% block title %}Deletar{% endblock title %}
+
+{% block menu %}{% endblock menu %}
+
+{% block content %}
+{% endblock content %}
+<div class="container mt-4">
+    <h2>Deletar Livro</h2>
+    <p>Tem certeza de que deseja deletar o livro "{{ livro.titulo }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Deletar</button>
+        <a href="{% url 'inicio' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

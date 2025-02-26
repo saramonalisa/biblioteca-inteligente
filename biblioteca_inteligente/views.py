@@ -83,15 +83,9 @@ def cadastro_livro(request):
 @login_required
 @permission_required('biblioteca_inteligente.change_livro')
 def deletar_livro(request, livro_id):
-    context = {
-        "livro": get_object_or_404(Livro, pk=livro_id)
-    }
-
-    if request.method=="POST":
-        context["livro"].delete()
-        return redirect('inicio')
-    else:
-        return render(request, "deletar_livro.html", context)
+    livro = get_object_or_404(Livro, id=id_livro)
+    livro.delete()
+    return render(request, "deletar_livro.html", context)
 
 @login_required
 @permission_required('app.change_livro', raise_exception=True)
@@ -101,10 +95,10 @@ def editar_livro(request, id_livro):
         form = LivroForm(request.POST, instance=livro)
         if form.is_valid():
             form.save()
-            return redirect('inicio')
+            return redirect('index')
     else:
         form = LivroForm(instance=livro)
-    return render(request, 'editar_livro.html', {'form': form})
+    return render(request, 'criar.html', {'form': form})
 
 @login_required
 @permission_required('biblioteca_inteligente.add_emprestimo', raise_exception=True)
@@ -115,26 +109,13 @@ def cadastro_emprestimo(request):
         form = EmprestimoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('inicio')
+            return redirect('index')
         else:
             context["form"] = form # esse é o form com os erros
     else:
         context["form"] = EmprestimoForm()
     
     return render(request, "cadastro_emprestimo.html", context)
-
-@login_required
-@permission_required('app.change_emprestimo', raise_exception=True)
-def editar_emprestimo(request, id_emprestimo):
-    emprestimo = get_object_or_404(Emprestimo, pk=id_emprestimo)
-    if request.method == 'POST':
-        form = EmprestimoForm(request.POST, instance=emprestimo)
-        if form.is_valid():
-            form.save()
-            return redirect('inicio')
-    else:
-        form = LivroForm(instance=emprestimo)
-    return render(request, 'editar_emprestimo.html', {'form': form})
 
 @login_required
 def ver_emprestimos(request):
@@ -144,10 +125,10 @@ def ver_emprestimos(request):
     return render(request, "ver_emprestimos.html", context)
 
 @login_required
-@permission_required('biblioteca_inteligente.change_emprestimo')
+@permission_required
 def gerenciar_emprestimos(request):
     context = {
-        "emprestimos": Emprestimo.objects.all
+        "emprestimos": Emprestimo.objects.all()
     }
     return render(request, "gerenciar_emprestimos.html", context)
 

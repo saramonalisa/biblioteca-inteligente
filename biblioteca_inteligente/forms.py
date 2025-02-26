@@ -42,8 +42,7 @@ class EmprestimoForm(forms.ModelForm):
         widgets = {
             'usuario': forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'Nome de usuário', 'id': 'floatingInput'}),
             'livro': forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'Livro', 'id': 'floatingLivro'}),
-            'data': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Data', 'id': 'floatingData'}),
-            'devolvido': forms.CheckboxInput(attrs={'class': 'form-check-input', 'id': 'flexCheckDefault'}),
+                'devolvido': forms.CheckboxInput(attrs={'class': 'form-check-input', 'id': 'flexCheckDefault'}),
         }
         
     def __init__(self, *args, **kwargs):
@@ -56,7 +55,7 @@ class LivroForm(forms.ModelForm):
     class Meta:
         model = Livro
         fields = "__all__"
-        widgets = widgets = {
+        widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Título', 'id': 'floatingInput'}),
             'autor': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Autor', 'id': 'floatingInput'}),
             'editora': forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'Editora', 'id': 'floatingInput'}),
