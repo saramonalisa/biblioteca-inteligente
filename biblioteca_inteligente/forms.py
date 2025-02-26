@@ -56,13 +56,16 @@ class LivroForm(forms.ModelForm):
     class Meta:
         model = Livro
         fields = "__all__"
-        widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome de usuário', 'id': 'floatingInput'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email', 'id': 'floatingInput'}),
-            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome', 'id': 'floatingInput'}),
-            'telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Telefone', 'id': 'floatingInput'}),
-            'password1': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Senha', 'id': 'floatingPassword'}),
-            'password2': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirme a senha', 'id': 'floatingPassword'}),
+        widgets = widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Título', 'id': 'floatingInput'}),
+            'autor': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Autor', 'id': 'floatingInput'}),
+            'editora': forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'Editora', 'id': 'floatingInput'}),
+            'publicacao': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ano de Publicação', 'id': 'floatingInput'}),
+            'isbn': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'ISBN', 'id': 'floatingInput'}),
+            'classificacao': forms.Select(attrs={'class': 'form-control', 'id': 'floatingSelect'}),
+            'genero': forms.Select(attrs={'class': 'form-control', 'id': 'floatingSelect'}),
+            'capa': forms.ClearableFileInput(attrs={'class': 'form-control', 'id': 'floatingInput'}),
+            'sinopse': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Sinopse', 'id': 'floatingSinopse'}),
         }
         
     def __init__(self, *args, **kwargs):
