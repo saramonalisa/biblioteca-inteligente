@@ -21,39 +21,31 @@
             </div>
           </div>
           <h4 class="bg-laranja mt-4">Catálogo de Livros</h4>
-          <div class="row row-cols-1 row-cols-md-2 mx-3 d-flex justify-content-center">
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-4">
             {% for livro in livros %}
-    <div class="col-md-4 mb-4">
-        <div class="card bg-white text-light" style="width: 18rem;">
-            {% if livro.capa %}
-            <div class="row">
-                <img src="{{ livro.capa.url }}" class="card-img-top" alt="">
-            {% else %}
-                <img src="{% static 'img/placeholder.png' %}" class="card-img-top" alt="{{ livro.titulo }}">
-            {% endif %}
-            <div class="card-body">
-                <h5 class="card-title fw-bold text-black">{{ livro.titulo }} - {{ livro.autor }} ({{ livro.ano_publicacao }})</h5>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary bg-laranja text-decoration-none">
-                            <a href="{% url 'detalhar_livro' livro.id %}">Ver detalhes</a>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary bg-laranja text-decoration-none">
-                          <a href="{% url 'deletar_livro' livro.id %}">Deletar livro</a>
-                      </button>
+            <div class="col">
+              <div class="card mb-3 shadow-sm h-100">
+                <div class="row g-0 h-100">
+                  <div class="col-md-4">
+                    {% if livro.capa %}
+                    <img src="{{ livro.capa.url }}" class="img-fluid rounded-start w-100 h-100 object-fit-cover" alt="capa">
+                    {% else %}
+                    <img src="{% static 'img/placeholder.png' %}" class="card-img-top w-75 mx-auto border border-2" alt="capa">
+                    {% endif %}
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ livro.titulo }}</h5>
+                      <p class="card-text">{{ livro.autor }}</p>
                     </div>
+                  </div>
                 </div>
+              </div>
             </div>
-        </div>
-    </div>
-    {% endfor %}
-            </div>
-          </div>
-      </div>
+            {% endfor %}
           </div>
         </div>
       </div>
     </div>
-  
-  </section>
+</section>
 {% endblock content %}
