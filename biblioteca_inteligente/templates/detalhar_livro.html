@@ -1,17 +1,42 @@
 {% extends "base.html" %}
 {% load static crispy_forms_tags %}
-{% block title %}Deletar{% endblock title %}
+{% block title %}Detalhar livro{% endblock title %}
 
 {% block menu %}{% endblock menu %}
 
 {% block content %}
 {% endblock content %}
-<div class="container mt-4">
-    <h2>Deletar Livro</h2>
-    <p>Tem certeza de que deseja deletar o livro "{{ livro.titulo }}"?</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Deletar</button>
-        <a href="{% url 'inicio' %}" class="btn btn-secondary">Cancelar</a>
-    </form>
+<section class="vh-80">
+    <div class="container-fluid h-custom" id="login">
+      <div class="row d-flex justify-content-center align-items-center m-3 p-3 h-100">
+        <div class="p-5 m-5 p-md-4">
+            <div class="container text-start">
+                <h4 class="bg-laranja"><span><a href="{{ request.META.HTTP_REFERER }}"><i class="fas fa-arrow-left mx-2" style="color: #FF914D;"></i></a></span>Conferir detalhes</h4>
+              </div>
+              <div class="card mb-3 shadow-sm h-100">
+                <div class="row g-0 h-100">
+                    <div class="col-md-4">
+                        {% if livro.capa %}
+                        <img src="{{ livro.capa.url }}" class="img-fluid rounded-start w-100 h-100 object-fit-cover" alt="capa">
+                        {% else %}
+                        <img src="{% static 'img/placeholder.png' %}" class="card-img-top w-75 mx-auto border border-2" alt="capa">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ livro.titulo }}</h5>
+                            <p class="card-text"><strong>Autor:</strong> {{ livro.autor }}</p>
+                            <p class="card-text"><strong>Editora:</strong> {{ livro.editora }}</p>
+                            <p class="card-text"><strong>Ano de Publicação:</strong> {{ livro.publicacao }}</p>
+                            <p class="card-text"><strong>ISBN:</strong> {{ livro.isbn }}</p>
+                            <p class="card-text"><strong>Classificação:</strong> {{ livro.classificacao }}</p>
+                            <p class="card-text"><strong>Gênero:</strong> {{ livro.genero }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</section>
 </div>

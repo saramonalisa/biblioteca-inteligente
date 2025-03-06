@@ -35,16 +35,13 @@ class UsuarioChangeForm(UserChangeForm):
         super().__init__(*args, **kwargs)
 
 class EmprestimoForm(forms.ModelForm):
-    
+    usuario = forms.ModelChoiceField(queryset=Usuario.objects.all(), label="Usuário")
+    livro = forms.ModelChoiceField(queryset=Livro.objects.all(), label="Livro")
+    devolvido = forms.BooleanField(required=False, label="Devolvido")
     class Meta:
         model = Emprestimo
-        fields = "__all__"
-        widgets = {
-            'usuario': forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'Nome de usuário', 'id': 'floatingInput'}),
-            'livro': forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'Livro', 'id': 'floatingLivro'}),
-                'devolvido': forms.CheckboxInput(attrs={'class': 'form-check-input', 'id': 'flexCheckDefault'}),
-        }
-        
+        fields = ['usuario', 'livro', 'devolvido']
+                    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -58,7 +55,7 @@ class LivroForm(forms.ModelForm):
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Título', 'id': 'floatingInput'}),
             'autor': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Autor', 'id': 'floatingInput'}),
-            'editora': forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'Editora', 'id': 'floatingInput'}),
+            'editora': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Editora', 'id': 'floatingInput'}),
             'publicacao': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ano de Publicação', 'id': 'floatingInput'}),
             'isbn': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'ISBN', 'id': 'floatingInput'}),
             'classificacao': forms.Select(attrs={'class': 'form-control', 'id': 'floatingSelect'}),

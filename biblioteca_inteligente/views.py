@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
+from django.contrib.messages import get_messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.paginator import Paginator
 from .models import Livro, Emprestimo
@@ -47,23 +48,24 @@ def login(request):
 
 @login_required
 def inicio(request):
-    livros = Livro.objects.all().order_by("?")[:9]
+    livros_list = Livro.objects.all().order_by("titulo")
     pesquisa = request.GET.get("q")
-    paginator = Paginator(livros, 6)
-    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
-    livros_paginados = paginator.get_page(numero_da_pagina)
     if pesquisa:
         livros_autor = Livro.objects.filter(autor__icontains=pesquisa)
         livros_titulo = Livro.objects.filter(titulo__icontains=pesquisa)
         livros_sinopse = Livro.objects.filter(sinopse__icontains=pesquisa)
-        livros = livros_autor | livros_titulo | livros_sinopse
-        livros.distinct()
-    return render(request, "inicio.html", {"livros": livros_paginados})
+        livros_list = livros_autor | livros_titulo | livros_sinopse
+        livros_list = livros_list.distinct()
+
+    paginator = Paginator(livros_list, 9)  # Mostra 9 livros por página
+    page_number = request.GET.get('page')
+    livros_paginados = paginator.get_page(page_number)
+    return render(request, 'inicio.html', {'livros_paginados': livros_paginados})
 
 @login_required
 def detalhar_livro(request, id_livro):
     livro = get_object_or_404(Livro, id=id_livro)
-    return render(request, "livro.html", {"livro": livro})
+    return render(request, "detalhar_livro.html", {"livro": livro})
 
 @login_required
 @permission_required('biblioteca_inteligente.add_livro', raise_exception=True)
@@ -82,7 +84,8 @@ def cadastro_livro(request):
 
 @login_required
 @permission_required('biblioteca_inteligente.change_livro')
-def deletar_livro(request, livro_id):
+def deletar_livro(request, id_livro):
+    context = {}
     livro = get_object_or_404(Livro, id=id_livro)
     livro.delete()
     return render(request, "deletar_livro.html", context)
@@ -98,6 +101,19 @@ def editar_livro(request, id_livro):
             return redirect('index')
     else:
         form = LivroForm(instance=livro)
+    return render(request, 'criar.html', {'form': form})
+
+@login_required
+@permission_required('app.change_emprestimo', raise_exception=True)
+def editar_emprestimo(request, id_emprestimo):
+    emprestimo = get_object_or_404(Livro, pk=id_emprestimo)
+    if request.method == 'POST':
+        form = LivroForm(request.POST, instance=emprestimo)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = LivroForm(instance=emprestimo)
     return render(request, 'criar.html', {'form': form})
 
 @login_required
@@ -125,7 +141,7 @@ def ver_emprestimos(request):
     return render(request, "ver_emprestimos.html", context)
 
 @login_required
-@permission_required
+@permission_required('biblioteca_inteligente.view_emprestimo')
 def gerenciar_emprestimos(request):
     context = {
         "emprestimos": Emprestimo.objects.all()
@@ -139,3 +155,15 @@ def marcar_devolvido(request, emprestimo_id):
     emprestimo.devolvido = True
     emprestimo.save()
     return HttpResponseRedirect(reverse('ver_emprestimos'))
+
+@login_required
+@permission_required('biblioteca_inteligente.view_livro')
+def gerenciar_livros(request):
+    context = {
+        "livros": Livro.objects.all(),
+    }
+    return render(request, "gerenciar_livros.html", context)
+
+def ajax_mensagens(request):
+    messages = get_messages(request)
+    return render(request, 'partials/_messages.html', {'messages': messages})
