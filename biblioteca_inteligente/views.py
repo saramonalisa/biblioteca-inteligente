@@ -10,6 +10,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.paginator import Paginator
 from .models import Livro, Emprestimo
 from .forms import LivroForm, EmprestimoForm, UserCreationForm
+import time 
 
 def index(request):
     context = {}
@@ -62,9 +63,24 @@ def inicio(request):
     livros_paginados = paginator.get_page(page_number)
     return render(request, 'inicio.html', {'livros_paginados': livros_paginados})
 
+def ajax_livros(request):
+    time.sleep(2)
+    livros_list = Livro.objects.all().order_by("titulo")
+    pesquisa = request.GET.get("q")
+    if pesquisa:
+        livros_autor = Livro.objects.filter(autor__icontains=pesquisa)
+        livros_titulo = Livro.objects.filter(titulo__icontains=pesquisa)
+        livros_sinopse = Livro.objects.filter(sinopse__icontains=pesquisa)
+        livros_list = livros_autor | livros_titulo | livros_sinopse
+        livros_list = livros_list.distinct()
+    paginator = Paginator(livros_list, 9)  # Mostra 9 livros por página
+    page_number = request.GET.get('page')
+    livros_paginados = paginator.get_page(page_number) # Pega a página específica
+    return render(request, "inicio.html", {'livros_paginados': livros_paginados})
+
 @login_required
 def detalhar_livro(request, id_livro):
-    livro = get_object_or_404(Livro, id=id_livro)
+    livro = get_object_or_404(Livro, pk=id_livro)
     return render(request, "detalhar_livro.html", {"livro": livro})
 
 @login_required
@@ -83,30 +99,36 @@ def cadastro_livro(request):
     return render(request, 'cadastro_livro.html', {'form': form})
 
 @login_required
-@permission_required('biblioteca_inteligente.change_livro')
+@permission_required('biblioteca_inteligente.delete_livro')
 def deletar_livro(request, id_livro):
-    context = {}
-    livro = get_object_or_404(Livro, id=id_livro)
-    livro.delete()
-    return render(request, "deletar_livro.html", context)
+    livro = get_object_or_404(Livro, pk=id_livro)
+    if request.method == "POST":
+        livro.delete()
+        messages.success(request, "Livro removido com sucesso!")
+        return redirect("gerenciar_livros")
+    else:
+        return render(request, "deletar_livro.html", {'livro': livro})
 
 @login_required
-@permission_required('app.change_livro', raise_exception=True)
+@permission_required('app.edit_livro', raise_exception=True)
 def editar_livro(request, id_livro):
     livro = get_object_or_404(Livro, pk=id_livro)
-    if request.method == 'POST':
-        form = LivroForm(request.POST, instance=livro)
+    if request.method == "POST":
+        form = LivroForm(request.POST, request.FILES, instance=livro)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            messages.success(request, "Livro atualizado!")
+            return redirect("gerenciar_livros")
+        else:
+            messages.error(request, "Falha ao criar livro!")
     else:
         form = LivroForm(instance=livro)
-    return render(request, 'criar.html', {'form': form})
+    return render(request, "editar_livro.html", {"form": form})
 
 @login_required
 @permission_required('app.change_emprestimo', raise_exception=True)
-def editar_emprestimo(request, id_emprestimo):
-    emprestimo = get_object_or_404(Livro, pk=id_emprestimo)
+def editar_emprestimo(request, id):
+    emprestimo = get_object_or_404(Livro, pk=id)
     if request.method == 'POST':
         form = LivroForm(request.POST, instance=emprestimo)
         if form.is_valid():
@@ -150,8 +172,8 @@ def gerenciar_emprestimos(request):
 
 @login_required
 @permission_required('biblioteca_inteligente.change_emprestimo')
-def marcar_devolvido(request, emprestimo_id):
-    emprestimo = get_object_or_404(Emprestimo, id=emprestimo_id)
+def marcar_devolvido(request, id):
+    emprestimo = get_object_or_404(Emprestimo, id=id)
     emprestimo.devolvido = True
     emprestimo.save()
     return HttpResponseRedirect(reverse('ver_emprestimos'))
@@ -166,4 +188,4 @@ def gerenciar_livros(request):
 
 def ajax_mensagens(request):
     messages = get_messages(request)
-    return render(request, 'partials/_messages.html', {'messages': messages})
+    return render(request, '_messages.html', {'messages': messages})
