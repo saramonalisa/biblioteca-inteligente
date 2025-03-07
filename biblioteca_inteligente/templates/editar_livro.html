@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static crispy_forms_tags %}
-{% block title %}Cadastrar livro{% endblock title %}
+{% block title %}Editar livro{% endblock title %}
 
 {% block menu %}{% endblock menu %}
 
@@ -10,7 +10,7 @@
       <div class="row d-flex justify-content-center align-items-center m-4 p-4 h-100 bg-white">
         <div class="row text-start pt-3 mt-5">
           <div class="container text-start">
-            <h4 class="bg-laranja"><span><a href="#"><i class="fas fa-arrow-left mx-2" style="color: #FF914D;"></i></a></span>Cadastrar livro</h4>
+            <h4 class="bg-laranja"><span><a href="{{ request.META.HTTP_REFERER }}"><i class="fas fa-arrow-left mx-2" style="color: #FF914D;"></i></a></span>Editar livro</h4>
           </div>
         </div>
                 <div class="container register-form">
@@ -18,7 +18,7 @@
                         <div class="form-content">
                           <div class="p-2 p-md-3">
                             <h4 class="bg-azul mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Preencha os campos abaixo:</h4>
-                            <form method="post" action="{% url 'editar_livro' %}">
+                            <form method="post">
                               {% csrf_token %}
                               <div class="row">
                                   <div class="col-md-6">

@@ -55,7 +55,7 @@ class LivroForm(forms.ModelForm):
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Título', 'id': 'floatingInput'}),
             'autor': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Autor', 'id': 'floatingInput'}),
-            'editora': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Editora', 'id': 'floatingInput'}),
+            'editora': forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'Editora', 'id': 'floatingInput'}),
             'publicacao': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ano de Publicação', 'id': 'floatingInput'}),
             'isbn': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'ISBN', 'id': 'floatingInput'}),
             'classificacao': forms.Select(attrs={'class': 'form-control', 'id': 'floatingSelect'}),

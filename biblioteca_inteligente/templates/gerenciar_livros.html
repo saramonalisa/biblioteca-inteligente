@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Livros{% endblock title %}
+
+{% block menu %}{% endblock menu %}
+
+{% block content %}
+<section class="vh-80">
+    <div class="container-fluid h-custom" id="login">
+      <div class="row d-flex justify-content-center align-items-center m-3 p-3 h-100">
+        <div class="row text-start pt-3 mt-5">
+          <div class="container text-start">
+            <h4 class="bg-laranja"><span><a href="{{ request.META.HTTP_REFERER }}"><i class="fas fa-arrow-left mx-2" style="color: #FF914D;"></i></a></span>Ver livros</h4>
+          </div>
+          <div class="container mt-3">
+            <button class="btn rounded-pill" style="background-color: #FF914D;">
+                <a href="{% url 'cadastro_livro' %}" class="btn rounded-pill mx-3">Criar novo</a>
+            </button>
+          </div>
+          <div class="p-3 m-3">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Titulo</th>
+                  <th scope="col">Autor</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for livro in livros %}
+                <tr>
+                  <th scope="row">
+                    {{ livro.titulo }}
+                 </th>
+                  <td>{{ livro.autor }}</td>
+                  <td>
+                    <button class="btn rounded-pill" style="background-color: #FF914D;">
+                        <a href="{% url 'detalhar_livro' livro.id %}" class="btn rounded-pill mx-3">Detalhes</a>
+                    </button>
+                    <button class="btn rounded-pill" style="background-color: #FF914D;">
+                        <a href="{% url 'editar_livro' livro.id %}" class="btn rounded-pill mx-3">Editar</a>
+                    </button>
+                    <button class="btn rounded-pill bg-danger">
+                        <a href="{% url 'deletar_livro' livro.id %}" class="btn rounded-pill mx-3">Deletar</a>
+                    </button>
+                </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>  
+</section>
+{% endblock content %}

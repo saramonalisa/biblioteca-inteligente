@@ -64,7 +64,7 @@ def inicio(request):
 
 @login_required
 def detalhar_livro(request, id_livro):
-    livro = get_object_or_404(Livro, id=id_livro)
+    livro = get_object_or_404(Livro, pk=id_livro)
     return render(request, "detalhar_livro.html", {"livro": livro})
 
 @login_required
@@ -83,30 +83,36 @@ def cadastro_livro(request):
     return render(request, 'cadastro_livro.html', {'form': form})
 
 @login_required
-@permission_required('biblioteca_inteligente.change_livro')
+@permission_required('biblioteca_inteligente.delete_livro')
 def deletar_livro(request, id_livro):
-    context = {}
-    livro = get_object_or_404(Livro, id=id_livro)
-    livro.delete()
-    return render(request, "deletar_livro.html", context)
+    livro = get_object_or_404(Livro, pk=id_livro)
+    if request.method == "POST":
+        livro.delete()
+        messages.success(request, "Livro removido com sucesso!")
+        return redirect("gerenciar_livros")
+    else:
+        return render(request, "deletar_livro.html", {'livro': livro})
 
 @login_required
-@permission_required('app.change_livro', raise_exception=True)
+@permission_required('app.edit_livro', raise_exception=True)
 def editar_livro(request, id_livro):
     livro = get_object_or_404(Livro, pk=id_livro)
-    if request.method == 'POST':
-        form = LivroForm(request.POST, instance=livro)
+    if request.method == "POST":
+        form = LivroForm(request.POST, request.FILES, instance=livro)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            messages.success(request, "Livro atualizado!")
+            return redirect("gerenciar_livros")
+        else:
+            messages.error(request, "Falha ao criar livro!")
     else:
         form = LivroForm(instance=livro)
-    return render(request, 'criar.html', {'form': form})
+    return render(request, "editar_livro.html", {"form": form})
 
 @login_required
 @permission_required('app.change_emprestimo', raise_exception=True)
-def editar_emprestimo(request, id_emprestimo):
-    emprestimo = get_object_or_404(Livro, pk=id_emprestimo)
+def editar_emprestimo(request, id):
+    emprestimo = get_object_or_404(Livro, pk=id)
     if request.method == 'POST':
         form = LivroForm(request.POST, instance=emprestimo)
         if form.is_valid():
@@ -150,8 +156,8 @@ def gerenciar_emprestimos(request):
 
 @login_required
 @permission_required('biblioteca_inteligente.change_emprestimo')
-def marcar_devolvido(request, emprestimo_id):
-    emprestimo = get_object_or_404(Emprestimo, id=emprestimo_id)
+def marcar_devolvido(request, id):
+    emprestimo = get_object_or_404(Emprestimo, id=id)
     emprestimo.devolvido = True
     emprestimo.save()
     return HttpResponseRedirect(reverse('ver_emprestimos'))
