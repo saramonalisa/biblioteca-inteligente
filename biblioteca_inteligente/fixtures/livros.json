@@ -1,0 +1,199 @@
+[
+    {
+      "model": "biblioteca_inteligente.livro",
+      "pk": 1,
+      "fields": {
+        "titulo": "A Jornada do Herói",
+        "autor": "J.R.R. Tolkien",
+        "capa": "",
+        "editora": [1],
+        "isbn": "9788533614572",
+        "publicacao": 1954,
+        "classificacao": "12",
+        "genero": "FA",
+        "sinopse": "A obra épica de J.R.R. Tolkien narra a aventura de Frodo Bolseiro, um hobbit que recebe a missão de destruir um anel mágico que pode trazer a destruição ao mundo."
+      }
+    },
+    {
+      "model": "biblioteca_inteligente.livro",
+      "pk": 2,
+      "fields": {
+        "titulo": "O Código Da Vinci",
+        "autor": "Dan Brown",
+        "capa": "livros/capas/2.jpg",
+        "editora": [2],
+        "isbn": "9780307474278",
+        "publicacao": 2003,
+        "classificacao": "16",
+        "genero": "MI",
+        "sinopse": "Robert Langdon, um simbologista, deve desvendar um mistério envolvendo segredos milenares, enquanto é perseguido por uma série de enigmas e perigos."
+      }
+    },
+    {
+      "model": "biblioteca_inteligente.livro",
+      "pk": 3,
+      "fields": {
+        "titulo": "O Pequeno Príncipe",
+        "autor": "Antoine de Saint-Exupéry",
+        "capa": "livros/capas/3.jpg",
+        "editora": [3],
+        "isbn": "9788516013469",
+        "publicacao": 1943,
+        "classificacao": "LI",
+        "genero": "CH",
+        "sinopse": "Um aviador encontra um pequeno príncipe que viaja de planeta em planeta, aprendendo lições sobre a vida e a natureza humana."
+      }
+    },
+    {
+      "model": "biblioteca_inteligente.livro",
+      "pk": 4,
+      "fields": {
+        "titulo": "A Arte da Guerra",
+        "autor": "Sun Tzu",
+        "capa": "livros/capas/4.png",
+        "editora": [4],
+        "isbn": "9788535907472",
+        "publicacao": -500,
+        "classificacao": "18",
+        "genero": "TE",
+        "sinopse": "Um tratado militar escrito por Sun Tzu, abordando a estratégia e táticas de guerra que podem ser aplicadas em diferentes áreas da vida."
+      }
+    },
+    
+    {
+        "model": "biblioteca_inteligente.livro",
+        "pk": 5,
+        "fields": {
+          "titulo": "1984",
+          "autor": "George Orwell",
+          "capa": "livros/capas/5.png",
+          "editora": [5],
+          "isbn": "9780451524935",
+          "publicacao": 1949,
+          "classificacao": "16",
+          "genero": "FI",
+          "sinopse": "Em uma distopia totalitária, Winston Smith luta para escapar da vigilância constante do governo e para preservar sua liberdade pessoal, enquanto questiona a manipulação da verdade."
+        }
+      },
+      {
+        "model": "biblioteca_inteligente.livro",
+        "pk": 6,
+        "fields": {
+          "titulo": "Dom Casmurro",
+          "autor": "Machado de Assis",
+          "capa": "livros/capas/6.png",
+          "editora": [6],
+          "isbn": "9788520925983",
+          "publicacao": 1899,
+          "classificacao": "14",
+          "genero": "RO",
+          "sinopse": "Bentinho, o narrador da história, reflete sobre seu passado e suas dúvidas sobre a fidelidade de sua esposa Capitu, em uma obra que explora temas como ciúmes, traição e a construção da memória."
+        }
+      },
+      {
+        "model": "biblioteca_inteligente.livro",
+        "pk": 7,
+        "fields": {
+          "titulo": "A Revolução dos Bichos",
+          "autor": "George Orwell",
+          "capa": "livros/capas/7.png",
+          "editora": [7],
+          "isbn": "9780141036137",
+          "publicacao": 1945,
+          "classificacao": "12",
+          "genero": "FI",
+          "sinopse": "Os animais de uma fazenda se rebelam contra seus donos humanos, mas logo descobrem que o poder pode ser corrompido, e que a luta por liberdade pode resultar em um novo tipo de tirania."
+        }
+      },
+      {
+        "model": "biblioteca_inteligente.livro",
+        "pk": 8,
+        "fields": {
+          "titulo": "Harry Potter e a Pedra Filosofal",
+          "autor": "J.K. Rowling",
+          "capa": "livros/capas/8.jpg",
+          "editora": [8],
+          "isbn": "9788532520371",
+          "publicacao": 1997,
+          "classificacao": "10",
+          "genero": "FA",
+          "sinopse": "Harry Potter, um garoto comum, descobre que é um bruxo e começa sua jornada na escola de magia de Hogwarts, onde enfrenta mistérios, perigos e faz amizades que marcarão sua vida."
+        }
+      },
+      {
+        "model": "biblioteca_inteligente.livro",
+        "pk": 9,
+        "fields": {
+          "titulo": "A Metamorfose",
+          "autor": "Franz Kafka",
+          "capa": "livros/capas/9.png",
+          "editora": [9],
+          "isbn": "9788535912223",
+          "publicacao": 1915,
+          "classificacao": "16",
+          "genero": "DR",
+          "sinopse": "Gregor Samsa, um comerciante, acorda em uma manhã e se descobre transformado em um inseto gigante, enquanto sua família enfrenta essa mudança de forma inesperada e dramática."
+        }
+      },
+      {
+        "model": "biblioteca_inteligente.livro",
+        "pk": 10,
+        "fields": {
+          "titulo": "O Senhor dos Anéis: A Sociedade do Anel",
+          "autor": "J.R.R. Tolkien",
+          "capa": "livros/capas/10.png",
+          "editora": [1],
+          "isbn": "9788533614589",
+          "publicacao": 1954,
+          "classificacao": "12",
+          "genero": "FA",
+          "sinopse": "Frodo Bolseiro parte em uma jornada épica com seus amigos para destruir o Anel do Poder e impedir que Sauron domine a Terra-média. A história é cheia de magia, criaturas místicas e batalhas por um futuro melhor."
+        }
+      },
+      {
+        "model": "biblioteca_inteligente.livro",
+        "pk": 11,
+        "fields": {
+          "titulo": "O Hobbit",
+          "autor": "J.R.R. Tolkien",
+          "capa": "livros/capas/11.jpg",
+          "editora": [1],
+          "isbn": "9788533614596",
+          "publicacao": 1937,
+          "classificacao": "10",
+          "genero": "FA",
+          "sinopse": "Bilbo Bolseiro, um hobbit pacato, é arrastado por um grupo de anões em uma jornada para recuperar um tesouro guardado por um dragão. O livro é uma aventura cheia de magia, amizades e descobertas."
+        }
+      },
+      {
+        "model": "biblioteca_inteligente.livro",
+        "pk": 12,
+        "fields": {
+          "titulo": "A Guerra dos Tronos",
+          "autor": "George R.R. Martin",
+          "capa": "livros/capas/12.jpg",
+          "editora": [10],
+          "isbn": "9788560280039",
+          "publicacao": 1996,
+          "classificacao": "16",
+          "genero": "FA",
+          "sinopse": "Em um mundo medieval, famílias nobres lutam pelo poder do Trono de Ferro, enquanto uma ameaça desconhecida ameaça destruir tudo o que conhecem. Uma obra épica cheia de intrigas políticas e batalhas."
+        }
+      },
+      {
+        "model": "biblioteca_inteligente.livro",
+        "pk": 13,
+        "fields": {
+          "titulo": "Cem Anos de Solidão",
+          "autor": "Gabriel García Márquez",
+          "capa": "livros/capas/13.png",
+          "editora": [11],
+          "isbn": "9788571644849",
+          "publicacao": 1967,
+          "classificacao": "18",
+          "genero": "FI",
+          "sinopse": "A história da família Buendía, que vive na fictícia cidade de Macondo. Uma obra-prima do realismo mágico, que mistura o fantástico e o cotidiano, abordando temas como amor, solidão e o destino."
+        }
+      }
+  ]
+  
