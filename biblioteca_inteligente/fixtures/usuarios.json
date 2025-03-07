@@ -1,0 +1,44 @@
+[
+  {
+    "model": "biblioteca_inteligente.usuario",
+    "pk": 1,
+    "fields": {
+      "username": "joao123",
+      "password": "pbkdf2_sha256$600000$abc123$Y2xvc2VkX3Bhc3N3b3Jk",
+      "nome": "João Silva",
+      "email": "joao.silva@email.com",
+      "telefone": "11999999999",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false
+    }
+  },
+  {
+    "model": "biblioteca_inteligente.usuario",
+    "pk": 2,
+    "fields": {
+      "username": "maria456",
+      "password": "pbkdf2_sha256$600000$def456$Y2xvc2VkX3Bhc3N3b3Jk",
+      "nome": "Maria Oliveira",
+      "email": "maria.oliveira@email.com",
+      "telefone": "11888888888",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false
+    }
+  },
+  {
+    "model": "biblioteca_inteligente.usuario",
+    "pk": 3,
+    "fields": {
+      "username": "admin",
+      "password": "pbkdf2_sha256$600000$ghi789$Y2xvc2VkX3Bhc3N3b3Jk",
+      "nome": "Administrador",
+      "email": "admin@email.com",
+      "telefone": "11000000000",
+      "is_active": true,
+      "is_staff": true,
+      "is_superuser": true
+    }
+  }
+]
