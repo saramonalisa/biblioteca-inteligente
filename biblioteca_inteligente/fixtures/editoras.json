@@ -1,34 +1,34 @@
 [
   {
-    "model": "seu_app.editora",
+    "model": "biblioteca_inteligente.editora",
     "pk": 1,
     "fields": {
       "editora": "Editora Globo"
     }
   },
   {
-    "model": "seu_app.editora",
+    "model": "biblioteca_inteligente.editora",
     "pk": 2,
     "fields": {
       "editora": "Companhia das Letras"
     }
   },
   {
-    "model": "seu_app.editora",
+    "model": "biblioteca_inteligente.editora",
     "pk": 3,
     "fields": {
       "editora": "Editora Intrínseca"
     }
   },
   {
-    "model": "seu_app.editora",
+    "model": "biblioteca_inteligente.editora",
     "pk": 4,
     "fields": {
       "editora": "Editora Record"
     }
   },
   {
-    "model": "seu_app.editora",
+    "model": "biblioteca_inteligente.editora",
     "pk": 5,
     "fields": {
       "editora": "HarperCollins Brasil"
