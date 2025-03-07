@@ -10,6 +10,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.paginator import Paginator
 from .models import Livro, Emprestimo
 from .forms import LivroForm, EmprestimoForm, UserCreationForm
+import time 
 
 def index(request):
     context = {}
@@ -61,6 +62,21 @@ def inicio(request):
     page_number = request.GET.get('page')
     livros_paginados = paginator.get_page(page_number)
     return render(request, 'inicio.html', {'livros_paginados': livros_paginados})
+
+def ajax_livros(request):
+    time.sleep(2)
+    livros_list = Livro.objects.all().order_by("titulo")
+    pesquisa = request.GET.get("q")
+    if pesquisa:
+        livros_autor = Livro.objects.filter(autor__icontains=pesquisa)
+        livros_titulo = Livro.objects.filter(titulo__icontains=pesquisa)
+        livros_sinopse = Livro.objects.filter(sinopse__icontains=pesquisa)
+        livros_list = livros_autor | livros_titulo | livros_sinopse
+        livros_list = livros_list.distinct()
+    paginator = Paginator(livros_list, 9)  # Mostra 9 livros por página
+    page_number = request.GET.get('page')
+    livros_paginados = paginator.get_page(page_number) # Pega a página específica
+    return render(request, "inicio.html", {'livros_paginados': livros_paginados})
 
 @login_required
 def detalhar_livro(request, id_livro):
@@ -172,4 +188,4 @@ def gerenciar_livros(request):
 
 def ajax_mensagens(request):
     messages = get_messages(request)
-    return render(request, 'partials/_messages.html', {'messages': messages})
+    return render(request, '_messages.html', {'messages': messages})
