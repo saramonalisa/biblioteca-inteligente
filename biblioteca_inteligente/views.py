@@ -13,8 +13,9 @@ from .forms import LivroForm, EmprestimoForm, UserCreationForm
 import time 
 
 def index(request):
-    context = {}
-    return render(request, "index.html", context)
+    if request.user.is_authenticated:
+        return redirect('inicio') 
+    return render(request, "index.html")
 
 def cadastro(request):
     if request.method == "POST":
