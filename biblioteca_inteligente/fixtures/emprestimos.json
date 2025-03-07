@@ -1,0 +1,29 @@
+[
+  {
+    "model": "biblioteca_inteligente.emprestimo",
+    "pk": 1,
+    "fields": {
+      "usuario": 1,
+      "livro": [1],
+      "devolvido": false
+    }
+  },
+  {
+    "model": "biblioteca_inteligente.emprestimo",
+    "pk": 2,
+    "fields": {
+      "usuario": 2,
+      "livro": [3],
+      "devolvido": true
+    }
+  },
+  {
+    "model": "biblioteca_inteligente.emprestimo",
+    "pk": 3,
+    "fields": {
+      "usuario": 3,
+      "livro": [4],
+      "devolvido": false
+    }
+  }
+]
