@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate, login as auth_login
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.messages import get_messages
@@ -82,6 +82,11 @@ def ajax_livros(request):
 def detalhar_livro(request, id_livro):
     livro = get_object_or_404(Livro, pk=id_livro)
     return render(request, "detalhar_livro.html", {"livro": livro})
+
+@login_required
+def ajax_detalhar_livro(request, id_livro):
+    livro = get_object_or_404(Livro, pk=id_livro)
+    return render(request, "partials/_card_livro.html", {"livro": livro})
 
 @login_required
 @permission_required('biblioteca_inteligente.add_livro', raise_exception=True)
@@ -188,4 +193,4 @@ def gerenciar_livros(request):
 
 def ajax_mensagens(request):
     messages = get_messages(request)
-    return render(request, '_messages.html', {'messages': messages})
+    return render(request, 'partials/_messages.html', {'messages': messages})

@@ -1,0 +1,23 @@
+{% load static %}
+<div class="card mb-3 shadow-sm h-100">
+    <div class="row g-0 h-100">
+        <div class="col-md-4">
+            {% if livro.capa %}
+            <img src="{{ livro.capa.url }}" class="img-fluid rounded-start w-100 h-100 object-fit-cover" alt="capa">
+            {% else %}
+            <img src="{% static 'img/placeholder.png' %}" class="card-img-top w-75 mx-auto border border-2" alt="capa">
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">{{ livro.titulo }}</h5>
+                <p class="card-text"><strong>Autor:</strong> {{ livro.autor }}</p>
+                <p class="card-text"><strong>Editora:</strong> {{ livro.editora }}</p>
+                <p class="card-text"><strong>Ano de Publicação:</strong> {{ livro.publicacao }}</p>
+                <p class="card-text"><strong>ISBN:</strong> {{ livro.isbn }}</p>
+                <p class="card-text"><strong>Classificação:</strong> {{ livro.classificacao }}</p>
+                <p class="card-text"><strong>Gênero:</strong> {{ livro.genero }}</p>
+            </div>
+        </div>
+    </div>
+</div>

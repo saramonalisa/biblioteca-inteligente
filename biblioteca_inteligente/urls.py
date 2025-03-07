@@ -19,4 +19,5 @@ urlpatterns = [
     path("ajax-messages/", views.ajax_mensagens, name="ajax_mensagens"),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path("ajax-livros/", views.ajax_livros, name="ajax_livros"),
+    path("ajax-detalhar-livro/<int:id_livro>/", views.ajax_detalhar_livro, name="ajax_detalhar_livro"),
 ]

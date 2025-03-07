@@ -34,8 +34,8 @@
                  </th>
                   <td>{{ livro.autor }}</td>
                   <td>
-                    <button class="btn rounded-pill" style="background-color: #FF914D;">
-                        <a href="{% url 'detalhar_livro' livro.id %}" class="btn rounded-pill mx-3">Detalhes</a>
+                    <button type="button " data-bs-toggle="modal" data-bs-target="#modal-livro" data-url="{% url 'ajax_detalhar_livro' livro.id %}" class="btn rounded-pill btn-lg detalhar-livro" style="padding-left: 2.5rem; padding-right: 2.5rem; background-color: #FF914D;">
+                      Detalhes
                     </button>
                     <button class="btn rounded-pill" style="background-color: #FF914D;">
                         <a href="{% url 'editar_livro' livro.id %}" class="btn rounded-pill mx-3">Editar</a>
