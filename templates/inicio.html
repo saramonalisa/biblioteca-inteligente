@@ -5,85 +5,507 @@
 {% endblock menu %}
 
 {% block content %}
-<section class="vh-80">
-    <div class="container-fluid h-custom" id="login">
-      <div class="row d-flex justify-content-center align-items-center m-3 p-3 h-100">
-        <div class="p-5 m-5 p-md-4">
-          <div class="container text-center pb-3">
-            <h4 class="bg-laranja">Conferir disponibilidade de livro no acervo:</h4>
+<section class="min-vh-100 py-5" style="background: linear-gradient(135deg, #172155 0%, #1a2b6d 100%);">
+  <div class="container py-4">
+    <!-- Header -->
+    <div class="row mb-5">
+      <div class="col-12">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <div>
+            <h1 class="h2 fw-bold text-white mb-1">Acervo da Biblioteca</h1>
+            <p class="text-white-50 mb-0">Explore nosso catálogo de livros</p>
           </div>
-          <div class="search-bar">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Pesquisar..." aria-label="Search" aria-describedby="search-addon">
-              <button class="btn bg-laranja" type="button" id="search-addon">
-                  <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
-          <h4 class="bg-laranja mt-4">Catálogo de Livros</h4>
-          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-4">
-            {% for livro in livros_paginados %}
-            <div class="col">
-              <div class="card mb-3 shadow-sm h-100">
-                <div class="row g-0 h-100">
-                  <div class="col-md-4">
-                    {% if livro.capa %}
-                    <img src="{{ livro.capa.url }}" class="img-fluid rounded-start w-100 h-100 object-fit-cover" alt="capa">
-                    {% else %}
-                    <img src="{% static 'img/placeholder.png' %}" class="card-img-top w-75 mx-auto border border-2" alt="capa">
-                    {% endif %}
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">{{ livro.titulo }}</h5>
-                      <p class="card-text">{{ livro.autor }}</p>
-                      <button type="button " data-bs-toggle="modal" data-bs-target="#modal-livro" data-url="{% url 'ajax_detalhar_livro' livro.id %}" class="btn rounded-pill btn-lg detalhar-livro" style="padding-left: 2.5rem; padding-right: 2.5rem; background-color: #FF914D;">
-                        Detalhes
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-            {% if livros_paginados.paginator.num_pages > 1 %}
-            <nav aria-label="paginacao" class="d-flex mt-4">
-              <ul class="pagination">
-                {% if livros_paginados.has_previous %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ livros_paginados.previous_page_number }}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                {% else %}
-                <li class="page-item disabled">
-                  <span class="page-link" aria-hidden="true">&laquo;</span>
-                </li>
-                {% endif %}
-                {% for num in livros_paginados.paginator.page_range %}
-                {% if livros_paginados.number == num %}
-                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
-                {% elif num > livros_paginados.number|add:'-3' and num < livros_paginados.number|add:'3' %}
-                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-                {% endif %}
-                {% endfor %}
-                {% if livros_paginados.has_next %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ livros_paginados.next_page_number }}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-                {% else %}
-                <li class="page-item disabled">
-                  <span class="page-link" aria-hidden="true">&raquo;</span>
-                </li>
-                {% endif %}
-              </ul>
-            </nav>
-            {% endif %}
+          <div class="text-end">
+            <span class="badge bg-light text-dark py-2 px-3">
+              <i class="fas fa-book me-1"></i>
+              {{ livros_paginados.paginator.count }} livro(s) encontrado(s)
+            </span>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Search Bar -->
+    <div class="row mb-5">
+      <div class="col-12">
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+          <div class="card-body p-4">
+            <div class="text-center mb-3">
+              <h5 class="fw-bold mb-0" style="color: #172155;">
+                <i class="fas fa-search me-2"></i>Buscar Livros no Acervo
+              </h5>
+              <p class="text-muted mb-0">Pesquise por título, autor, editora ou gênero</p>
+            </div>
+            
+            <form method="GET" action="{% url 'inicio' %}" class="needs-validation" novalidate>
+              <div class="input-group input-group-lg shadow-sm">
+                <input type="text" 
+                       class="form-control border-0 rounded-start-4" 
+                       name="q" 
+                       placeholder="Digite título, autor, editora..." 
+                       value="{{ request.GET.q|default:'' }}"
+                       aria-label="Buscar livros">
+                <button class="btn rounded-end-4 border-0 shadow-sm fw-bold" 
+                        type="submit"
+                        style="background-color: #FF914D; color: white; width: 120px;">
+                  <i class="fas fa-search me-2"></i>Buscar
+                </button>
+              </div>
+              
+              <!-- Advanced Filters -->
+              <div class="row g-3 mt-3">
+                <div class="col-md-3">
+                  <select class="form-select" name="genero">
+                    <option value="">Todos os gêneros</option>
+                    {% for key, value in generos %}
+                      <option value="{{ key }}" {% if request.GET.genero == key %}selected{% endif %}>
+                        {{ value }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <select class="form-select" name="disponivel">
+                    <option value="">Todos</option>
+                    <option value="disponivel" {% if request.GET.disponivel == 'disponivel' %}selected{% endif %}>Disponíveis</option>
+                    <option value="indisponivel" {% if request.GET.disponivel == 'indisponivel' %}selected{% endif %}>Indisponíveis</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <select class="form-select" name="order">
+                    <option value="">Ordenar por</option>
+                    <option value="titulo" {% if request.GET.order == 'titulo' %}selected{% endif %}>Título (A-Z)</option>
+                    <option value="-titulo" {% if request.GET.order == '-titulo' %}selected{% endif %}>Título (Z-A)</option>
+                    <option value="autor" {% if request.GET.order == 'autor' %}selected{% endif %}>Autor (A-Z)</option>
+                    <option value="-publicacao" {% if request.GET.order == '-publicacao' %}selected{% endif %}>Mais recentes</option>
+                    <option value="publicacao" {% if request.GET.order == 'publicacao' %}selected{% endif %}>Mais antigos</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <button type="button" class="btn btn-outline-secondary w-100" onclick="window.location='{% url 'inicio' %}'">
+                    <i class="fas fa-redo me-2"></i>Limpar Filtros
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Books Grid -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h4 class="fw-bold text-white mb-0">
+            <i class="fas fa-book-open me-2"></i>Catálogo de Livros
+          </h4>
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-light" id="gridViewBtn">
+              <i class="fas fa-th-large"></i>
+            </button>
+            <button class="btn btn-outline-light" id="listViewBtn">
+              <i class="fas fa-list"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid View -->
+    <div id="gridView" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      {% for livro in livros_paginados %}
+      <div class="col">
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden h-100 hover-lift">
+          <!-- Book Status -->
+          <div class="book-status position-absolute top-0 end-0 m-3 z-2">
+            {% if livro.disponivel %}
+            <span class="badge bg-success rounded-pill py-2 px-3 shadow-sm">
+              <i class="fas fa-check-circle me-1"></i>Disponível
+            </span>
+            {% else %}
+            <span class="badge bg-danger rounded-pill py-2 px-3 shadow-sm">
+              <i class="fas fa-times-circle me-1"></i>Indisponível
+            </span>
+            {% endif %}
+          </div>
+          
+          <!-- Book Cover -->
+          <div class="book-cover-wrapper" style="height: 200px; overflow: hidden;">
+            {% if livro.capa %}
+            <img src="{{ livro.capa.url }}" 
+                 class="img-fluid w-100 h-100 object-fit-cover" 
+                 alt="Capa do livro {{ livro.titulo }}"
+                 style="transition: transform 0.5s ease;">
+            {% else %}
+            <div class="w-100 h-100 d-flex align-items-center justify-content-center" 
+                 style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+              <div class="text-center">
+                <i class="fas fa-book fa-3x" style="color: #adb5bd;"></i>
+                <p class="text-muted mt-2 mb-0">Sem imagem</p>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+          
+          <!-- Book Info -->
+          <div class="card-body">
+            <h5 class="card-title fw-bold mb-2 text-truncate" style="color: #172155;">
+              {{ livro.titulo }}
+            </h5>
+            <p class="card-text text-muted mb-2">
+              <i class="fas fa-user-edit me-2" style="color: #FF914D;"></i>
+              <strong class="text-dark">por</strong> {{ livro.autor }}
+            </p>
+            
+            <div class="book-meta mb-3">
+              <div class="d-flex align-items-center mb-1">
+                <small class="text-muted me-2">
+                  <i class="fas fa-tag me-1"></i>{{ livro.get_genero_display }}
+                </small>
+                <small class="text-muted">
+                  <i class="fas fa-calendar-alt me-1"></i>{{ livro.publicacao|default:"-" }}
+                </small>
+              </div>
+              <div>
+                <small class="text-muted">
+                  <i class="fas fa-hashtag me-1"></i>{{ livro.classificacao|default:"N/A" }}
+                </small>
+                {% if livro.editora.all %}
+                <br>
+                <small class="text-muted">
+                  <i class="fas fa-building me-1"></i>
+                  {% for editora in livro.editora.all|slice:":2" %}
+                    {{ editora.editora }}{% if not forloop.last %}, {% endif %}
+                  {% endfor %}
+                  {% if livro.editora.count > 2 %}
+                    +{{ livro.editora.count|add:"-2" }}
+                  {% endif %}
+                </small>
+                {% endif %}
+              </div>
+            </div>
+            
+            <p class="card-text small text-muted synopsis-preview">
+              {{ livro.sinopse|truncatechars:100|default:"Sem sinopse disponível." }}
+            </p>
+          </div>
+          
+          <!-- Card Footer -->
+          <div class="card-footer bg-transparent border-0 pt-0">
+            <div class="d-grid">
+              <button type="button" 
+                      class="btn btn-lg rounded-pill fw-bold border-0 shadow-sm detalhar-livro" 
+                      data-bs-toggle="modal" 
+                      data-bs-target="#modal-livro" 
+                      data-url="{% url 'ajax_detalhar_livro' livro.id %}"
+                      style="background-color: #FF914D; color: white;">
+                <i class="fas fa-info-circle me-2"></i>Ver Detalhes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12">
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.05);">
+          <div class="card-body text-center py-5">
+            <div class="mb-4" style="color: rgba(255, 255, 255, 0.3);">
+              <i class="fas fa-book fa-4x"></i>
+            </div>
+            <h4 class="text-white mb-3">Nenhum livro encontrado</h4>
+            <p class="text-white-50 mb-4">
+              {% if request.GET.q %}
+                Não foram encontrados livros para "{{ request.GET.q }}"
+              {% else %}
+                Nenhum livro cadastrado no acervo.
+              {% endif %}
+            </p>
+            <a href="{% url 'inicio' %}" class="btn btn-lg fw-bold border-0" 
+               style="background-color: #FF914D; color: white; padding: 0.75rem 2rem; border-radius: 50px;">
+              <i class="fas fa-redo me-2"></i>Limpar Busca
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- List View (Hidden by default) -->
+    <div id="listView" class="row d-none">
+      <div class="col-12">
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light" style="background-color: rgba(255, 145, 77, 0.1);">
+                  <tr>
+                    <th scope="col" class="ps-4">
+                      <i class="fas fa-book me-2" style="color: #FF914D;"></i>Livro
+                    </th>
+                    <th scope="col">
+                      <i class="fas fa-user-edit me-2" style="color: #FF914D;"></i>Autor
+                    </th>
+                    <th scope="col">
+                      <i class="fas fa-building me-2" style="color: #FF914D;"></i>Editora(s)
+                    </th>
+                    <th scope="col">
+                      <i class="fas fa-tag me-2" style="color: #FF914D;"></i>Gênero
+                    </th>
+                    <th scope="col">
+                      <i class="fas fa-calendar-alt me-2" style="color: #FF914D;"></i>Ano
+                    </th>
+                    <th scope="col" class="text-center">
+                      <i class="fas fa-info-circle me-2" style="color: #FF914D;"></i>Status
+                    </th>
+                    <th scope="col" class="text-end pe-4">
+                      <i class="fas fa-cogs me-2" style="color: #FF914D;"></i>Ações
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for livro in livros_paginados %}
+                  <tr class="hover-lift">
+                    <td class="ps-4">
+                      <div class="d-flex align-items-center">
+                        {% if livro.capa %}
+                        <img src="{{ livro.capa.url }}" 
+                             class="img-fluid rounded me-3" 
+                             alt="Capa" 
+                             style="width: 50px; height: 70px; object-fit: cover;">
+                        {% else %}
+                        <div class="book-icon me-3" style="color: #172155;">
+                          <i class="fas fa-book fa-lg"></i>
+                        </div>
+                        {% endif %}
+                        <div>
+                          <h6 class="mb-0 fw-bold">{{ livro.titulo }}</h6>
+                          <small class="text-muted">ISBN: {{ livro.isbn|default:"-" }}</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="fw-medium">{{ livro.autor }}</span>
+                    </td>
+                    <td>
+                      {% if livro.editora.all %}
+                        {% for editora in livro.editora.all|slice:":2" %}
+                          <span class="badge bg-light text-dark mb-1">{{ editora.editora }}</span>
+                          {% if not forloop.last %}<br>{% endif %}
+                        {% endfor %}
+                        {% if livro.editora.count > 2 %}
+                          <span class="badge bg-secondary">+{{ livro.editora.count|add:"-2" }}</span>
+                        {% endif %}
+                      {% else %}
+                        <span class="text-muted">-</span>
+                      {% endif %}
+                    </td>
+                    <td>
+                      <span class="badge bg-light text-dark">{{ livro.get_genero_display }}</span>
+                    </td>
+                    <td>
+                      <span class="fw-medium">{{ livro.publicacao|default:"-" }}</span>
+                    </td>
+                    <td class="text-center">
+                      {% if livro.disponivel %}
+                      <span class="badge bg-success rounded-pill py-2 px-3">
+                        <i class="fas fa-check-circle me-1"></i>Disponível
+                      </span>
+                      {% else %}
+                      <span class="badge bg-danger rounded-pill py-2 px-3">
+                        <i class="fas fa-times-circle me-1"></i>Indisponível
+                      </span>
+                      {% endif %}
+                    </td>
+                    <td class="text-end pe-4">
+                      <button type="button" 
+                              class="btn btn-sm fw-bold rounded-pill detalhar-livro" 
+                              data-bs-toggle="modal" 
+                              data-bs-target="#modal-livro" 
+                              data-url="{% url 'ajax_detalhar_livro' livro.id %}"
+                              style="background-color: #FF914D; color: white; padding: 0.5rem 1.5rem;">
+                        <i class="fas fa-eye me-1"></i>Detalhes
+                      </button>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    {% if livros_paginados.paginator.num_pages > 1 %}
+    <div class="row mt-5">
+      <div class="col-12">
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center">
+            {% if livros_paginados.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}{% if request.GET.genero %}genero={{ request.GET.genero }}&{% endif %}{% if request.GET.disponivel %}disponivel={{ request.GET.disponivel }}&{% endif %}{% if request.GET.order %}order={{ request.GET.order }}&{% endif %}page={{ livros_paginados.previous_page_number }}" 
+                 style="color: #172155;">
+                <i class="fas fa-chevron-left"></i>
+              </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+              <span class="page-link" style="color: #6c757d;">
+                <i class="fas fa-chevron-left"></i>
+              </span>
+            </li>
+            {% endif %}
+            
+            {% for num in livros_paginados.paginator.page_range %}
+              {% if num == livros_paginados.number %}
+              <li class="page-item active">
+                <span class="page-link" style="background-color: #FF914D; border-color: #FF914D;">
+                  {{ num }}
+                </span>
+              </li>
+              {% elif num > livros_paginados.number|add:'-3' and num < livros_paginados.number|add:'3' %}
+              <li class="page-item">
+                <a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}{% if request.GET.genero %}genero={{ request.GET.genero }}&{% endif %}{% if request.GET.disponivel %}disponivel={{ request.GET.disponivel }}&{% endif %}{% if request.GET.order %}order={{ request.GET.order }}&{% endif %}page={{ num }}" 
+                   style="color: #172155;">
+                  {{ num }}
+                </a>
+              </li>
+              {% endif %}
+            {% endfor %}
+            
+            {% if livros_paginados.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}{% if request.GET.genero %}genero={{ request.GET.genero }}&{% endif %}{% if request.GET.disponivel %}disponivel={{ request.GET.disponivel }}&{% endif %}{% if request.GET.order %}order={{ request.GET.order }}&{% endif %}page={{ livros_paginados.next_page_number }}" 
+                 style="color: #172155;">
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+              <span class="page-link" style="color: #6c757d;">
+                <i class="fas fa-chevron-right"></i>
+              </span>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+        
+        <div class="text-center mt-3">
+          <small class="text-white-50">
+            Página {{ livros_paginados.number }} de {{ livros_paginados.paginator.num_pages }} 
+            • {{ livros_paginados.paginator.count }} livro(s) no total
+          </small>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
 </section>
+
+<style>
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+  }
+  
+  .book-cover-wrapper:hover img {
+    transform: scale(1.05);
+  }
+  
+  .book-icon {
+    width: 50px;
+    height: 70px;
+    background: rgba(255, 145, 77, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .synopsis-preview {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.5;
+  }
+  
+  .object-fit-cover {
+    object-fit: cover;
+  }
+  
+  .rounded-start-4 {
+    border-top-left-radius: 1rem !important;
+    border-bottom-left-radius: 1rem !important;
+  }
+  
+  .rounded-end-4 {
+    border-top-right-radius: 1rem !important;
+    border-bottom-right-radius: 1rem !important;
+  }
+  
+  .table > :not(caption) > * > * {
+    padding: 1rem 0.5rem;
+  }
+  
+  .page-link {
+    border: 1px solid #dee2e6;
+  }
+  
+  .page-item.active .page-link {
+    background-color: #FF914D;
+    border-color: #FF914D;
+  }
+  
+  #gridViewBtn.active, #listViewBtn.active {
+    background-color: #FF914D;
+    color: white;
+    border-color: #FF914D;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Toggle between grid and list view
+    const gridViewBtn = document.getElementById('gridViewBtn');
+    const listViewBtn = document.getElementById('listViewBtn');
+    const gridView = document.getElementById('gridView');
+    const listView = document.getElementById('listView');
+    
+    // Set default active button
+    gridViewBtn.classList.add('active');
+    
+    gridViewBtn.addEventListener('click', function() {
+      gridView.classList.remove('d-none');
+      listView.classList.add('d-none');
+      gridViewBtn.classList.add('active');
+      listViewBtn.classList.remove('active');
+    });
+    
+    listViewBtn.addEventListener('click', function() {
+      gridView.classList.add('d-none');
+      listView.classList.remove('d-none');
+      listViewBtn.classList.add('active');
+      gridViewBtn.classList.remove('active');
+    });
+    
+    // Search form submission with loading
+    const searchForm = document.querySelector('form[method="GET"]');
+    if (searchForm) {
+      searchForm.addEventListener('submit', function() {
+        const submitBtn = this.querySelector('button[type="submit"]');
+        if (submitBtn) {
+          submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Buscando...';
+          submitBtn.disabled = true;
+        }
+      });
+    }
+  });
+</script>
 {% endblock content %}

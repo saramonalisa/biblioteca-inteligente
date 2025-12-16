@@ -17,7 +17,7 @@
           </a>
           <div>
             <h1 class="h2 fw-bold text-white mb-1">Gerenciar Usuários</h1>
-            <p class="text-white-50 mb-0">Administre os usuários da biblioteca</p>
+            <p class="text-white-50 mb-0">Administre os usuários do sistema</p>
           </div>
         </div>
       </div>
@@ -28,15 +28,15 @@
       <div class="col-md-3 col-sm-6 mb-3">
         <div class="card border-0 shadow-sm h-100" style="background: rgba(255, 255, 255, 0.1);">
           <div class="card-body text-center text-white">
-            <h2 class="display-6 fw-bold mb-0">{{ total_users }}</h2>
-            <p class="mb-0 opacity-75">Total Usuários</p>
+            <h2 class="display-6 fw-bold mb-0">{{ total_usuarios }}</h2>
+            <p class="mb-0 opacity-75">Total</p>
           </div>
         </div>
       </div>
       <div class="col-md-3 col-sm-6 mb-3">
         <div class="card border-0 shadow-sm h-100" style="background: rgba(33, 150, 83, 0.2);">
           <div class="card-body text-center text-white">
-            <h2 class="display-6 fw-bold mb-0">{{ active_users }}</h2>
+            <h2 class="display-6 fw-bold mb-0">{{ usuarios_ativos }}</h2>
             <p class="mb-0 opacity-75">Ativos</p>
           </div>
         </div>
@@ -44,7 +44,7 @@
       <div class="col-md-3 col-sm-6 mb-3">
         <div class="card border-0 shadow-sm h-100" style="background: rgba(255, 145, 77, 0.2);">
           <div class="card-body text-center text-white">
-            <h2 class="display-6 fw-bold mb-0">{{ staff_users }}</h2>
+            <h2 class="display-6 fw-bold mb-0">{{ usuarios_staff }}</h2>
             <p class="mb-0 opacity-75">Administradores</p>
           </div>
         </div>
@@ -52,53 +52,27 @@
       <div class="col-md-3 col-sm-6 mb-3">
         <div class="card border-0 shadow-sm h-100" style="background: rgba(77, 119, 255, 0.2);">
           <div class="card-body text-center text-white">
-            <h2 class="display-6 fw-bold mb-0">{{ regular_users }}</h2>
+            <h2 class="display-6 fw-bold mb-0">{{ usuarios_regulares }}</h2>
             <p class="mb-0 opacity-75">Leitores</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Action Bar -->
-    <div class="row mb-4">
-      <div class="col-12">
-        <div class="card shadow-sm border-0">
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <div>
-              <h5 class="card-title mb-0 fw-bold" style="color: #172155;">
-                <i class="fas fa-users me-2"></i>Usuários Cadastrados
-              </h5>
-              <p class="text-muted small mb-0 mt-1">{{ users|length }} usuário(s) no sistema</p>
-            </div>
-            <div class="d-flex gap-2">
-              <button class="btn btn-outline-primary fw-bold" style="border-color: #172155; color: #172155;">
-                <i class="fas fa-file-export me-2"></i>Exportar
-              </button>
-              <button class="btn fw-bold border-0 shadow-sm" 
-                      style="background-color: #FF914D; color: white; padding: 0.75rem 2rem; border-radius: 50px;"
-                      data-bs-toggle="modal" data-bs-target="#addUserModal">
-                <i class="fas fa-user-plus me-2"></i>Novo Usuário
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Filters -->
+    <!-- Search and Filters -->
     <div class="row mb-4">
       <div class="col-12">
         <div class="card shadow-sm border-0">
           <div class="card-body">
             <div class="row g-3">
               <div class="col-md-4">
-                <input type="text" class="form-control" placeholder="Buscar por nome, email ou usuário..." id="searchInput">
+                <input type="text" class="form-control" placeholder="Buscar por nome, email ou usuário..." 
+                       id="searchInput" value="{{ request.GET.q|default:'' }}">
               </div>
               <div class="col-md-3">
                 <select class="form-select" id="roleFilter">
                   <option value="">Todos os tipos</option>
-                  <option value="admin">Administrador</option>
-                  <option value="staff">Staff</option>
+                  <option value="staff">Administrador</option>
                   <option value="regular">Leitor</option>
                 </select>
               </div>
@@ -110,8 +84,9 @@
                 </select>
               </div>
               <div class="col-md-2">
-                <button class="btn btn-light w-100" onclick="resetFilters()">
-                  <i class="fas fa-redo me-2"></i>Limpar
+                <button class="btn w-100 fw-bold" style="background-color: #FF914D; color: white;" 
+                        onclick="window.location='{% url 'cadastro' %}'">
+                  <i class="fas fa-user-plus me-2"></i>Novo
                 </button>
               </div>
             </div>
@@ -125,7 +100,7 @@
       <div class="col-12">
         <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
           <div class="card-body p-0">
-            {% if users %}
+            {% if usuarios %}
               <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
                   <thead class="table-light" style="background-color: rgba(255, 145, 77, 0.1);">
@@ -154,8 +129,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                    {% for user in users %}
-                    <tr class="hover-lift">
+                    {% for usuario in usuarios %}
+                    <tr class="hover-lift" data-role="{% if usuario.is_staff %}staff{% else %}regular{% endif %}" 
+                        data-status="{% if usuario.is_active %}active{% else %}inactive{% endif %}">
                       <td class="ps-4">
                         <div class="d-flex align-items-center">
                           <div class="avatar me-3">
@@ -165,23 +141,23 @@
                             </div>
                           </div>
                           <div>
-                            <h6 class="mb-0 fw-bold">{{ user.get_full_name|default:user.username }}</h6>
-                            <small class="text-muted">@{{ user.username }}</small>
+                            <h6 class="mb-0 fw-bold">{{ usuario.nome|default:usuario.username }}</h6>
+                            <small class="text-muted">@{{ usuario.username }}</small>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <span class="fw-medium">{{ user.email|default:"Não informado" }}</span>
+                        <span class="fw-medium">{{ usuario.email|default:"Não informado" }}</span>
                       </td>
                       <td>
-                        <span class="fw-medium">{{ user.profile.telefone|default:"Não informado" }}</span>
+                        <span class="fw-medium">{{ usuario.telefone|default:"Não informado" }}</span>
                       </td>
                       <td class="text-center">
-                        {% if user.is_superuser %}
+                        {% if usuario.is_superuser %}
                           <span class="badge bg-danger rounded-pill py-2 px-3">
                             <i class="fas fa-crown me-1"></i>Super Admin
                           </span>
-                        {% elif user.is_staff %}
+                        {% elif usuario.is_staff %}
                           <span class="badge bg-warning rounded-pill py-2 px-3">
                             <i class="fas fa-user-shield me-1"></i>Administrador
                           </span>
@@ -192,11 +168,11 @@
                         {% endif %}
                       </td>
                       <td class="text-center">
-                        <div class="text-dark fw-medium">{{ user.date_joined|date:"d/m/Y" }}</div>
-                        <small class="text-muted">{{ user.date_joined|timesince }}</small>
+                        <div class="text-dark fw-medium">{{ usuario.date_joined|date:"d/m/Y" }}</div>
+                        <small class="text-muted">{{ usuario.date_joined|timesince }}</small>
                       </td>
                       <td class="text-center">
-                        {% if user.is_active %}
+                        {% if usuario.is_active %}
                           <span class="badge bg-success rounded-pill py-2 px-3">
                             <i class="fas fa-check-circle me-1"></i>Ativo
                           </span>
@@ -208,24 +184,31 @@
                       </td>
                       <td class="text-end pe-4">
                         <div class="btn-group" role="group">
-                          <a href="#" 
-                             class="btn btn-sm btn-outline-info rounded-start-pill px-3" data-bs-toggle="modal" data-bs-target="#viewUserModal">
-                            <i class="fas fa-eye me-1"></i>
-                          </a>
-                          <a href="{% url 'editar_usuario' user.id %}" 
-                             class="btn btn-sm btn-outline-warning px-3" style="border-color: #FF914D; color: #FF914D;">
+                          <a href="{% url 'editar_usuario' usuario.id %}" 
+                             class="btn btn-sm btn-outline-warning rounded-start-pill px-3" style="border-color: #FF914D; color: #FF914D;">
                             <i class="fas fa-edit me-1"></i>
                           </a>
-                          {% if not user.is_superuser %}
+                          {% if not usuario.is_superuser %}
                           <button class="btn btn-sm btn-outline-danger px-3" 
-                                  onclick="toggleUserStatus({{ user.id }}, '{{ user.username }}', {{ user.is_active|lower }})">
-                            <i class="fas {% if user.is_active %}fa-user-slash{% else %}fa-user-check{% endif %} me-1"></i>
+                                  onclick="toggleUserStatus({{ usuario.id }}, '{{ usuario.username }}', {{ usuario.is_active|lower }})">
+                            <i class="fas {% if usuario.is_active %}fa-user-slash{% else %}fa-user-check{% endif %} me-1"></i>
+                          </button>
+                          {% if usuario.is_staff %}
+                          <button class="btn btn-sm btn-outline-info px-3" 
+                                  onclick="rebaixarUsuario({{ usuario.id }}, '{{ usuario.username }}')">
+                            <i class="fas fa-user-minus me-1"></i>
+                          </button>
+                          {% else %}
+                          <button class="btn btn-sm btn-outline-success px-3" 
+                                  onclick="promoverUsuario({{ usuario.id }}, '{{ usuario.username }}')">
+                            <i class="fas fa-user-plus me-1"></i>
                           </button>
                           {% endif %}
-                          <a href="#" 
+                          {% endif %}
+                          <a href="{% url 'deletar_usuario' usuario.id %}" 
                              class="btn btn-sm btn-outline-secondary rounded-end-pill px-3" 
-                             onclick="resetPassword({{ user.id }}, '{{ user.username }}')">
-                            <i class="fas fa-key me-1"></i>
+                             onclick="return confirm('Tem certeza que deseja excluir o usuário {{ usuario.username }}?')">
+                            <i class="fas fa-trash-alt me-1"></i>
                           </a>
                         </div>
                       </td>
@@ -242,11 +225,10 @@
                 </div>
                 <h5 class="text-muted mb-3">Nenhum usuário cadastrado</h5>
                 <p class="text-muted mb-4">Comece adicionando o primeiro usuário ao sistema</p>
-                <button class="btn btn-lg fw-bold border-0" 
-                        style="background-color: #FF914D; color: white; padding: 0.75rem 2rem; border-radius: 50px;"
-                        data-bs-toggle="modal" data-bs-target="#addUserModal">
+                <a href="{% url 'cadastro' %}" class="btn btn-lg fw-bold border-0" 
+                   style="background-color: #FF914D; color: white; padding: 0.75rem 2rem; border-radius: 50px;">
                   <i class="fas fa-user-plus me-2"></i>Adicionar Primeiro Usuário
-                </button>
+                </a>
               </div>
             {% endif %}
           </div>
@@ -255,7 +237,7 @@
     </div>
 
     <!-- Pagination -->
-    {% if users %}
+    {% if usuarios %}
     <div class="row mt-4">
       <div class="col-12">
         <nav aria-label="Page navigation">
@@ -284,92 +266,6 @@
     {% endif %}
   </div>
 </section>
-
-<!-- Add User Modal -->
-<div class="modal fade" id="addUserModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title fw-bold" style="color: #172155;">
-          <i class="fas fa-user-plus me-2"></i>Adicionar Novo Usuário
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="addUserForm">
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label">Nome completo *</label>
-              <input type="text" class="form-control" required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Nome de usuário *</label>
-              <input type="text" class="form-control" required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Email *</label>
-              <input type="email" class="form-control" required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Telefone</label>
-              <input type="tel" class="form-control">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Senha *</label>
-              <input type="password" class="form-control" required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Confirmar senha *</label>
-              <input type="password" class="form-control" required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Tipo de usuário</label>
-              <select class="form-select">
-                <option value="regular">Leitor</option>
-                <option value="staff">Administrador</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Status</label>
-              <select class="form-select">
-                <option value="active">Ativo</option>
-                <option value="inactive">Inativo</option>
-              </select>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn" style="background-color: #FF914D; color: white;" onclick="saveUser()">
-          <i class="fas fa-save me-2"></i>Salvar Usuário
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- View User Modal -->
-<div class="modal fade" id="viewUserModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title fw-bold" style="color: #172155;">
-          <i class="fas fa-user me-2"></i>Detalhes do Usuário
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <!-- User details will be loaded via AJAX -->
-        <div id="userDetails" class="text-center py-4">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Carregando...</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <style>
   .hover-lift {
@@ -427,10 +323,6 @@
     background-color: #FF914D;
     border-color: #FF914D;
   }
-  
-  .modal-header {
-    border-bottom: 2px solid rgba(255, 145, 77, 0.2);
-  }
 </style>
 
 <script>
@@ -461,25 +353,14 @@
         
         // Role filter
         if (role) {
-          const roleBadge = row.querySelectorAll('td')[3].textContent.toLowerCase();
-          let roleMatch = false;
-          
-          if (role === 'admin' && (roleBadge.includes('admin') || roleBadge.includes('super'))) {
-            roleMatch = true;
-          } else if (role === 'staff' && roleBadge.includes('administrador')) {
-            roleMatch = true;
-          } else if (role === 'regular' && roleBadge.includes('leitor')) {
-            roleMatch = true;
-          }
-          
-          if (!roleMatch) show = false;
+          const userRole = row.getAttribute('data-role');
+          if (userRole !== role) show = false;
         }
         
         // Status filter
         if (status) {
-          const statusBadge = row.querySelectorAll('td')[5].textContent.toLowerCase();
-          if (status === 'active' && !statusBadge.includes('ativo')) show = false;
-          if (status === 'inactive' && !statusBadge.includes('inativo')) show = false;
+          const userStatus = row.getAttribute('data-status');
+          if (userStatus !== status) show = false;
         }
         
         row.style.display = show ? '' : 'none';
@@ -491,102 +372,25 @@
     statusFilter.addEventListener('change', filterTable);
   });
   
-  function resetFilters() {
-    document.getElementById('searchInput').value = '';
-    document.getElementById('roleFilter').value = '';
-    document.getElementById('statusFilter').value = '';
-    
-    const tableRows = document.querySelectorAll('tbody tr');
-    tableRows.forEach(row => row.style.display = '');
-  }
-  
   function toggleUserStatus(userId, username, isActive) {
     const action = isActive ? 'desativar' : 'ativar';
     const message = `Tem certeza que deseja ${action} o usuário "${username}"?`;
     
     if (confirm(message)) {
-      // AJAX call to toggle user status
-      fetch(`/api/users/${userId}/toggle-status/`, {
-        method: 'POST',
-        headers: {
-          'X-CSRFToken': getCookie('csrftoken'),
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          location.reload();
-        } else {
-          alert('Erro ao alterar status do usuário.');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Erro ao alterar status do usuário.');
-      });
+      window.location.href = `/usuarios/toggle-status/${userId}/`;
     }
   }
   
-  function resetPassword(userId, username) {
-    if (confirm(`Deseja resetar a senha do usuário "${username}"? Uma nova senha será gerada e enviada por email.`)) {
-      // AJAX call to reset password
-      fetch(`/api/users/${userId}/reset-password/`, {
-        method: 'POST',
-        headers: {
-          'X-CSRFToken': getCookie('csrftoken'),
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          alert('Senha resetada com sucesso! Nova senha enviada por email.');
-        } else {
-          alert('Erro ao resetar senha.');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Erro ao resetar senha.');
-      });
+  function promoverUsuario(userId, username) {
+    if (confirm(`Deseja promover "${username}" a administrador?`)) {
+      window.location.href = `/usuarios/promover/${userId}/`;
     }
   }
   
-  function saveUser() {
-    // Implement save user functionality
-    const form = document.getElementById('addUserForm');
-    if (form.checkValidity()) {
-      // Submit form via AJAX or regular form submission
-      form.submit();
-    } else {
-      form.reportValidity();
+  function rebaixarUsuario(userId, username) {
+    if (confirm(`Deseja rebaixar "${username}" a usuário regular?`)) {
+      window.location.href = `/usuarios/rebaixar/${userId}/`;
     }
-  }
-  
-  // Helper function to get CSRF token
-  function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
-      }
-    }
-    return cookieValue;
   }
 </script>
-
-{% comment %}
-Add these context variables to your view:
-context['total_users'] = User.objects.count()
-context['active_users'] = User.objects.filter(is_active=True).count()
-context['staff_users'] = User.objects.filter(is_staff=True).count()
-context['regular_users'] = User.objects.filter(is_staff=False).count()
-context['users'] = User.objects.all().order_by('-date_joined')
-{% endcomment %}
 {% endblock content %}

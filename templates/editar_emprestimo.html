@@ -1,8 +1,346 @@
+<!-- templates/editar_emprestimo.html -->
 {% extends "base.html" %}
 {% load static crispy_forms_tags %}
-{% block title %}Editar empréstimo{% endblock title %}
+{% block title %}Editar Empréstimo - Biblioteca Inteligente{% endblock title %}
 
 {% block menu %}{% endblock menu %}
 
 {% block content %}
+<section class="min-vh-100 py-5 d-flex align-items-center" style="background: linear-gradient(135deg, #172155 0%, #1a2b6d 100%);">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-8 col-lg-10">
+        <!-- Header -->
+        <div class="row mb-5">
+          <div class="col-12">
+            <div class="d-flex align-items-center justify-content-center mb-4">
+              <a href="{% url 'gerenciar_emprestimos' %}" 
+                 class="btn btn-outline-light rounded-circle me-3" 
+                 style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-arrow-left"></i>
+              </a>
+              <div class="text-center">
+                <h1 class="h2 fw-bold text-white mb-1">Editar Empréstimo</h1>
+                <p class="text-white-50 mb-0">Atualize as informações do empréstimo</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Card -->
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+          <div class="card-header border-0 pt-4 pb-3" style="background: linear-gradient(135deg, #FF914D 0%, #FFAA6D 100%);">
+            <div class="text-center">
+              <h4 class="fw-bold text-white mb-0">
+                <i class="fas fa-edit me-2"></i>Informações do Empréstimo
+              </h4>
+              <p class="text-white mb-0 opacity-75">ID: #{{ emprestimo.id }}</p>
+            </div>
+          </div>
+          
+          <div class="card-body p-4 p-lg-5">
+            <!-- Current Status -->
+            <div class="row mb-5">
+              <div class="col-12">
+                <div class="alert alert-info border-0 shadow-sm">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <i class="fas fa-info-circle fa-2x text-info"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <h6 class="alert-heading fw-bold mb-1">Status Atual:</h6>
+                      <div class="d-flex align-items-center gap-3">
+                        {% if emprestimo.devolvido %}
+                          <span class="badge bg-success rounded-pill py-2 px-3">
+                            <i class="fas fa-check-circle me-1"></i>Devolvido
+                          </span>
+                          <span class="text-muted">Devolvido em: {{ emprestimo.data_devolucao_real|date:"d/m/Y H:i" }}</span>
+                        {% elif emprestimo.atrasado %}
+                          <span class="badge bg-danger rounded-pill py-2 px-3">
+                            <i class="fas fa-exclamation-circle me-1"></i>Atrasado
+                          </span>
+                          <span class="text-muted">Devia ter sido devolvido em: {{ emprestimo.data_devolucao|date:"d/m/Y" }}</span>
+                        {% else %}
+                          <span class="badge bg-warning rounded-pill py-2 px-3">
+                            <i class="fas fa-clock me-1"></i>Pendente
+                          </span>
+                          <span class="text-muted">Data prevista: {{ emprestimo.data_devolucao|date:"d/m/Y" }}</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Current Details -->
+            <div class="row mb-5">
+              <div class="col-md-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                  <div class="card-header bg-light border-0">
+                    <h6 class="fw-bold mb-0 text-primary">
+                      <i class="fas fa-user me-2"></i>Usuário
+                    </h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="d-flex align-items-center">
+                      <div class="user-icon me-3" style="color: #172155;">
+                        <i class="fas fa-user-circle fa-2x"></i>
+                      </div>
+                      <div>
+                        <h6 class="fw-bold mb-0">{{ emprestimo.usuario.get_full_name|default:emprestimo.usuario.username }}</h6>
+                        <small class="text-muted">@{{ emprestimo.usuario.username }}</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                  <div class="card-header bg-light border-0">
+                    <h6 class="fw-bold mb-0 text-primary">
+                      <i class="fas fa-book me-2"></i>Livro(s)
+                    </h6>
+                  </div>
+                  <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                      {% for livro in emprestimo.livro.all %}
+                        <li class="mb-2">
+                          <i class="fas fa-book text-warning me-2"></i>
+                          <span class="fw-medium">{{ livro.titulo }}</span>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Edit Form -->
+            <form method="post" class="needs-validation" novalidate>
+              {% csrf_token %}
+              
+              <div class="row g-4">
+                <!-- Left Column -->
+                <div class="col-lg-6">
+                  <!-- User Selection -->
+                  <div class="form-group mb-4">
+                    <label class="form-label fw-bold mb-2">
+                      <i class="fas fa-user me-2" style="color: #FF914D;"></i>
+                      Usuário
+                    </label>
+                    {{ form.usuario }}
+                    <div class="form-text">
+                      Selecione o usuário responsável pelo empréstimo
+                    </div>
+                  </div>
+
+                  <!-- Book Selection -->
+                  <div class="form-group mb-4">
+                    <label class="form-label fw-bold mb-2">
+                      <i class="fas fa-book me-2" style="color: #FF914D;"></i>
+                      Livro(s)
+                    </label>
+                    {{ form.livro }}
+                    <div class="form-text">
+                      Selecione um ou mais livros para o empréstimo
+                    </div>
+                  </div>
+
+                  <!-- Loan Date -->
+                  <div class="form-group mb-4">
+                    <label class="form-label fw-bold mb-2">
+                      <i class="fas fa-calendar-alt me-2" style="color: #FF914D;"></i>
+                      Data do Empréstimo
+                    </label>
+                    {{ form.data }}
+                    <div class="form-text">
+                      Data em que o livro foi emprestado
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="col-lg-6">
+                  <!-- Return Date -->
+                  <div class="form-group mb-4">
+                    <label class="form-label fw-bold mb-2">
+                      <i class="fas fa-calendar-check me-2" style="color: #FF914D;"></i>
+                      Data de Devolução Prevista
+                    </label>
+                    {{ form.data_devolucao }}
+                    <div class="form-text">
+                      Data prevista para devolução
+                    </div>
+                  </div>
+
+                  <!-- Status -->
+                  <div class="form-group mb-4">
+                    <label class="form-label fw-bold mb-2">
+                      <i class="fas fa-info-circle me-2" style="color: #FF914D;"></i>
+                      Status
+                    </label>
+                    <div class="row g-2">
+                      <div class="col-6">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" name="devolvido" id="id_devolvido" 
+                                 {% if emprestimo.devolvido %}checked{% endif %}>
+                          <label class="form-check-label fw-medium" for="id_devolvido">
+                            Devolvido
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        {% if emprestimo.devolvido %}
+                        <div class="form-group">
+                          <label class="form-label small">Data Real da Devolução</label>
+                          <input type="datetime-local" name="data_devolucao_real" 
+                                 class="form-control" value="{{ emprestimo.data_devolucao_real|date:'Y-m-d\TH:i' }}">
+                        </div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Observations -->
+                  <div class="form-group">
+                    <label class="form-label fw-bold mb-2">
+                      <i class="fas fa-sticky-note me-2" style="color: #FF914D;"></i>
+                      Observações
+                    </label>
+                    {{ form.observacoes }}
+                    <div class="form-text">
+                      Informações adicionais sobre o empréstimo
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="row mt-5 pt-4 border-top">
+                <div class="col-md-6 mb-3">
+                  <button type="submit" class="btn btn-lg w-100 fw-bold text-white border-0 shadow" 
+                          style="background-color: #FF914D;">
+                    <i class="fas fa-save me-2"></i>Salvar Alterações
+                  </button>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <a href="{% url 'gerenciar_emprestimos' %}" 
+                     class="btn btn-lg btn-outline-secondary w-100 fw-bold">
+                    <i class="fas fa-times me-2"></i>Cancelar
+                  </a>
+                </div>
+              </div>
+            </form>
+          </div>
+          
+          <!-- Card Footer -->
+          <div class="card-footer bg-light border-0 text-center py-3">
+            <p class="mb-0 small text-muted">
+              <i class="fas fa-history me-1" style="color: #FF914D;"></i>
+              Empréstimo criado em {{ emprestimo.created_at|date:"d/m/Y H:i" }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .user-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 145, 77, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .form-control, .form-select {
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    height: 50px;
+    transition: all 0.3s ease;
+  }
+  
+  .form-control:focus, .form-select:focus {
+    border-color: #FF914D;
+    box-shadow: 0 0 0 0.25rem rgba(255, 145, 77, 0.25);
+  }
+  
+  .form-check-input:checked {
+    background-color: #FF914D;
+    border-color: #FF914D;
+  }
+  
+  .form-check-input:focus {
+    border-color: #FF914D;
+    box-shadow: 0 0 0 0.25rem rgba(255, 145, 77, 0.25);
+  }
+  
+  .badge {
+    font-size: 0.8rem;
+  }
+  
+  textarea.form-control {
+    min-height: 120px;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Auto-calculate return date based on loan date
+    const dataInput = document.querySelector('input[name="data"]');
+    const devolucaoInput = document.querySelector('input[name="data_devolucao"]');
+    
+    if (dataInput && devolucaoInput) {
+      dataInput.addEventListener('change', function() {
+        if (!devolucaoInput.value && this.value) {
+          const loanDate = new Date(this.value);
+          loanDate.setDate(loanDate.getDate() + 15); // Add 15 days
+          devolucaoInput.value = loanDate.toISOString().split('T')[0];
+        }
+      });
+    }
+    
+    // Toggle actual return date field
+    const devolvidoCheckbox = document.getElementById('id_devolvido');
+    const dataRealField = document.querySelector('input[name="data_devolucao_real"]');
+    
+    if (devolvidoCheckbox && dataRealField) {
+      function toggleRealDateField() {
+        if (devolvidoCheckbox.checked) {
+          dataRealField.style.display = 'block';
+          dataRealField.required = true;
+        } else {
+          dataRealField.style.display = 'none';
+          dataRealField.required = false;
+          dataRealField.value = '';
+        }
+      }
+      
+      devolvidoCheckbox.addEventListener('change', toggleRealDateField);
+      toggleRealDateField(); // Initial check
+    }
+    
+    // Form validation
+    (function () {
+      'use strict'
+      var forms = document.querySelectorAll('.needs-validation')
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })()
+  });
+</script>
 {% endblock content %}
