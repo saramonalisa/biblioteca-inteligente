@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static crispy_forms_filters %}
+
+{% block menu %}
+{% endblock menu %}
+
+{% block content %}
+<!-- Banner Hero -->
+<div class="hero-section" style="background: linear-gradient(135deg, #172155 0%, #1a2b6d 100%); min-height: 85vh; display: flex; align-items: center;">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 text-center text-lg-start text-white mb-5 mb-lg-0">
+        <h1 class="display-4 fw-bold mb-4">Biblioteca Inteligente</span></h1>
+        <p class="lead mb-4 fs-5">Sistema moderno de gerenciamento bibliotecário. Controle completo de acervo, empréstimos e usuários em uma plataforma intuitiva.</p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="{% url 'login' %}" class="btn btn-warning btn-lg px-4 py-3 rounded-pill fw-bold shadow" style="background-color: #FF914D; border: none;">
+            <i class="fas fa-sign-in-alt me-2"></i>Acessar Sistema
+          </a>
+          <a href="{% url 'cadastro' %}" class="btn btn-outline-light btn-lg px-4 py-3 rounded-pill fw-bold">
+            <i class="fas fa-user-plus me-2"></i>Criar Conta
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-6 text-center">
+        <img src="{% static './img/logo.png' %}" alt="logo" class="img-fluid" style="max-width: 300px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Features -->
+<div class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5 fw-bold display-6 text-dark">Funcionalidades Principais</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm hover-lift">
+          <div class="card-body text-center p-4">
+            <div class="feature-icon mb-3" style="color: #FF914D; font-size: 2.5rem;">
+              <i class="fas fa-book-open"></i>
+            </div>
+            <h4 class="card-title fw-bold">Acervo Digital</h4>
+            <p class="card-text text-muted">Catálogo completo de livros com busca avançada e filtros por categoria, autor e disponibilidade.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm hover-lift">
+          <div class="card-body text-center p-4">
+            <div class="feature-icon mb-3" style="color: #172155; font-size: 2.5rem;">
+              <i class="fas fa-exchange-alt"></i>
+            </div>
+            <h4 class="card-title fw-bold">Controle de Empréstimos</h4>
+            <p class="card-text text-muted">Sistema automatizado de empréstimos e devoluções com notificações e histórico completo.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm hover-lift">
+          <div class="card-body text-center p-4">
+            <div class="feature-icon mb-3" style="color: #FF914D; font-size: 2.5rem;">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h4 class="card-title fw-bold">Relatórios Inteligentes</h4>
+            <p class="card-text text-muted">Dashboard com gráficos e relatórios em tempo real sobre o uso da biblioteca.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- About Section -->
+<div class="py-5" style="background-color: #f8f9fa;">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <div class="position-relative">
+          <img src="{% static './img/logo.png' %}" alt="Sobre nós" class="img-fluid rounded shadow" style="max-width: 80%;">
+          <div class="position-absolute bottom-0 start-0 bg-warning text-dark p-3 rounded shadow" style="transform: translate(-20%, 20%);">
+            <h5 class="fw-bold mb-0">Projeto Integrador</h5>
+            <p class="mb-0 small">IFRN - Campus São Paulo do Potengi</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <h2 class="display-6 fw-bold mb-4 text-dark">Transformando Bibliotecas Escolares</h2>
+        <p class="lead mb-4">A Biblioteca Inteligente é uma solução inovadora desenvolvida para modernizar a gestão de bibliotecas em instituições de ensino públicas.</p>
+        
+        <div class="mb-4">
+          <h5 class="fw-bold mb-3" style="color: #172155;">
+            <i class="fas fa-bullseye me-2"></i>Missão do Projeto
+          </h5>
+          <p class="text-muted">Digitalizar e otimizar os processos de gerenciamento bibliotecário, oferecendo uma plataforma acessível e eficiente para escolas públicas.</p>
+        </div>
+        
+        <div class="mb-4">
+          <h5 class="fw-bold mb-3" style="color: #FF914D;">
+            <i class="fas fa-users me-2"></i>Para Quem?
+          </h5>
+          <p class="text-muted">Desenvolvido para bibliotecários, administradores escolares, professores e estudantes que necessitam de um sistema organizado e intuitivo.</p>
+        </div>
+        
+        <a href="{% url 'cadastro' %}" class="btn btn-lg rounded-pill fw-bold px-4" style="background-color: #172155; color: white; border: none;">
+          <i class="fas fa-rocket me-2"></i>Comece Agora
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA Section -->
+<div class="py-5 text-center text-white" style="background: linear-gradient(135deg, #FF914D 0%, #ffaa6d 100%);">
+  <div class="container">
+    <h2 class="display-6 fw-bold mb-4">Pronto para transformar sua biblioteca?</h2>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a href="{% url 'cadastro' %}" class="btn btn-light btn-lg px-4 py-3 rounded-pill fw-bold text-dark">
+        <i class="fas fa-play-circle me-2"></i>Experimente Grátis
+      </a>
+      <a href="#contact" class="btn btn-outline-light btn-lg px-4 py-3 rounded-pill fw-bold">
+        <i class="fas fa-question-circle me-2"></i>Saiba Mais
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+  }
+  .feature-icon {
+    transition: transform 0.3s ease;
+  }
+  .card:hover .feature-icon {
+    transform: scale(1.1);
+  }
+  .hero-section {
+    position: relative;
+    overflow: hidden;
+  }
+</style>
+{% endblock content %}

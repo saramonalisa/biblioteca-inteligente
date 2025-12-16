@@ -1,0 +1,311 @@
+{% extends "base.html" %}
+{% load static crispy_forms_tags %}
+{% block title %}Deletar Livro - Biblioteca Inteligente{% endblock title %}
+
+{% block menu %}{% endblock menu %}
+
+{% block content %}
+<section class="min-vh-100 py-5 d-flex align-items-center" style="background: linear-gradient(135deg, #172155 0%, #1a2b6d 100%);">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-6 col-lg-8 col-md-10">
+        <!-- Header -->
+        <div class="row mb-5">
+          <div class="col-12">
+            <div class="d-flex align-items-center justify-content-center mb-4">
+              <a href="{{ request.META.HTTP_REFERER|default:'{% url "gerenciar_livros" %}' }}" 
+                 class="btn btn-outline-light rounded-circle me-3" 
+                 style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-arrow-left"></i>
+              </a>
+              <div class="text-center">
+                <h1 class="h2 fw-bold text-white mb-1">Confirmar Exclusão</h1>
+                <p class="text-white-50 mb-0">Ação irreversível</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Warning Card -->
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden border-danger border-3">
+          <div class="card-header border-0 pt-4 pb-3 bg-danger">
+            <div class="text-center">
+              <h4 class="fw-bold text-white mb-0">
+                <i class="fas fa-exclamation-triangle me-2"></i>Atenção!
+              </h4>
+              <p class="text-white mb-0 opacity-75">Você está prestes a excluir um livro permanentemente</p>
+            </div>
+          </div>
+          
+          <div class="card-body p-4 p-lg-5">
+            <!-- Book Details -->
+            <div class="text-center mb-5">
+              <div class="book-icon mb-4 mx-auto" 
+                   style="width: 80px; height: 80px; background: linear-gradient(135deg, #ffc107 0%, #ffaa6d 100%); border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-book fa-3x text-white"></i>
+              </div>
+              
+              <h3 class="fw-bold mb-2" style="color: #172155;">"{{ livro.titulo }}"</h3>
+              <p class="text-muted mb-4">por {{ livro.autor }}</p>
+              
+              <div class="book-info bg-light rounded-3 p-4 mb-4">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="text-start">
+                      <small class="text-muted d-block">Editora</small>
+                      <span class="fw-medium">{{ livro.editora|default:"Não informada" }}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="text-start">
+                      <small class="text-muted d-block">Ano de Publicação</small>
+                      <span class="fw-medium">{{ livro.publicacao|default:"Não informado" }}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="text-start">
+                      <small class="text-muted d-block">ISBN</small>
+                      <span class="fw-medium">{{ livro.isbn|default:"Não informado" }}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="text-start">
+                      <small class="text-muted d-block">Gênero</small>
+                      <span class="fw-medium">{{ livro.genero|default:"Não informado" }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Warning Messages -->
+            <div class="alert alert-warning border-0 shadow-sm mb-4">
+              <div class="d-flex">
+                <div class="flex-shrink-0">
+                  <i class="fas fa-exclamation-circle fa-2x text-warning"></i>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <h6 class="alert-heading fw-bold mb-1">Esta ação não pode ser desfeita!</h6>
+                  <p class="mb-0">Todos os dados relacionados a este livro serão permanentemente removidos do sistema.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="alert alert-danger border-0 shadow-sm mb-5">
+              <div class="d-flex">
+                <div class="flex-shrink-0">
+                  <i class="fas fa-ban fa-2x text-danger"></i>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <h6 class="alert-heading fw-bold mb-1">Impacto da exclusão:</h6>
+                  <ul class="mb-0 ps-3">
+                    <li>Histórico de empréstimos será perdido</li>
+                    <li>Imagem da capa será excluída</li>
+                    <li>Dados não poderão ser recuperados</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Confirmation Form -->
+            <form method="post" class="needs-validation" novalidate>
+              {% csrf_token %}
+              
+              <!-- Confirmation Checkbox -->
+              <div class="form-check mb-4">
+                <input class="form-check-input" type="checkbox" id="confirmDelete" required>
+                <label class="form-check-label fw-bold" for="confirmDelete" style="color: #172155;">
+                  <i class="fas fa-check-circle me-2"></i>
+                  Eu entendo que esta ação é permanente e irreversível
+                </label>
+                <div class="invalid-feedback">
+                  Você deve confirmar antes de excluir.
+                </div>
+              </div>
+              
+              <!-- Type to Confirm -->
+              <div class="form-group mb-4">
+                <label class="form-label fw-bold mb-2" style="color: #172155;">
+                  <i class="fas fa-keyboard me-2"></i>
+                  Digite "DELETAR" para confirmar:
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text" style="background-color: rgba(220, 53, 69, 0.1); border-color: #dc3545;">
+                    <i class="fas fa-exclamation" style="color: #dc3545;"></i>
+                  </span>
+                  <input type="text" class="form-control" id="confirmationText" 
+                         placeholder="Digite DELETAR aqui..." required
+                         pattern="DELETAR">
+                  <div class="invalid-feedback">
+                    Por favor, digite "DELETAR" exatamente como mostrado.
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Action Buttons -->
+              <div class="d-grid gap-3">
+                <button type="submit" class="btn btn-lg rounded-3 fw-bold text-white border-0 shadow" 
+                        style="background-color: #dc3545;" disabled id="deleteButton">
+                  <i class="fas fa-trash-alt me-2"></i>Excluir Livro Permanentemente
+                </button>
+                
+                <a href="{% url 'gerenciar_livros' %}" 
+                   class="btn btn-lg btn-outline-secondary rounded-3 fw-bold">
+                  <i class="fas fa-times me-2"></i>Cancelar e Voltar
+                </a>
+              </div>
+            </form>
+          </div>
+          
+          <!-- Card Footer -->
+          <div class="card-footer bg-light border-0 text-center py-3">
+            <p class="mb-0 small text-muted">
+              <i class="fas fa-shield-alt me-1" style="color: #dc3545;"></i>
+              Esta é uma ação protegida por confirmação
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .book-icon {
+    transition: transform 0.3s ease;
+  }
+  
+  .book-icon:hover {
+    transform: scale(1.1);
+  }
+  
+  .form-control {
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    height: 50px;
+    transition: all 0.3s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+  }
+  
+  .input-group-text {
+    border-radius: 10px 0 0 10px;
+    border: 2px solid #dc3545;
+    border-right: none;
+  }
+  
+  .form-check-input:checked {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+  
+  .form-check-input:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+  }
+  
+  .alert {
+    border-radius: 15px;
+  }
+  
+  .border-danger {
+    border-width: 3px !important;
+  }
+  
+  #deleteButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15) !important;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const confirmCheckbox = document.getElementById('confirmDelete');
+    const confirmationText = document.getElementById('confirmationText');
+    const deleteButton = document.getElementById('deleteButton');
+    const deleteForm = document.querySelector('form');
+    
+    // Enable/disable delete button based on confirmation
+    function updateDeleteButton() {
+      const isConfirmed = confirmCheckbox.checked;
+      const isTextValid = confirmationText.value.toUpperCase() === 'DELETAR';
+      
+      deleteButton.disabled = !(isConfirmed && isTextValid);
+    }
+    
+    confirmCheckbox.addEventListener('change', updateDeleteButton);
+    confirmationText.addEventListener('input', updateDeleteTextValidation);
+    
+    function updateDeleteTextValidation() {
+      const text = confirmationText.value.toUpperCase();
+      const isValid = text === 'DELETAR';
+      
+      if (text && !isValid) {
+        confirmationText.classList.add('is-invalid');
+        confirmationText.classList.remove('is-valid');
+      } else if (isValid) {
+        confirmationText.classList.remove('is-invalid');
+        confirmationText.classList.add('is-valid');
+      } else {
+        confirmationText.classList.remove('is-invalid', 'is-valid');
+      }
+      
+      updateDeleteButton();
+    }
+    
+    // Final confirmation before submission
+    deleteForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      if (!confirmCheckbox.checked || confirmationText.value.toUpperCase() !== 'DELETAR') {
+        alert('Por favor, complete todas as confirmações antes de prosseguir.');
+        return false;
+      }
+      
+      // Double confirmation with more dramatic warning
+      if (confirm('⚠️ ATENÇÃO FINAL!\n\nVocê está prestes a excluir PERMANENTEMENTE o livro "' + 
+                  '{{ livro.titulo|escapejs }}".\n\nEsta ação NÃO pode ser desfeita.\n\n' +
+                  'Tem ABSOLUTA certeza que deseja continuar?')) {
+        // Show loading state
+        deleteButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Excluindo...';
+        deleteButton.disabled = true;
+        
+        // Submit form
+        this.submit();
+      }
+    });
+    
+    // Initialize validation
+    updateDeleteButton();
+    updateDeleteTextValidation();
+    
+    // Form validation
+    (function () {
+      'use strict'
+      var forms = document.querySelectorAll('.needs-validation')
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })()
+  });
+</script>
+{% endblock content %}

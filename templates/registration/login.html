@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load static crispy_forms_tags %}
+{% block title %}Entrar - Biblioteca Inteligente{% endblock title %}
+
+{% block menu %}
+{% endblock menu %}
+
+{% block content %}
+<section class="vh-100 d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #172155 0%, #1a2b6d 100%);">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-5 col-lg-6 col-md-8">
+        <!-- Login Card -->
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+          <!-- Card Header -->
+          <div class="card-header bg-white border-0 pt-5 pb-4">
+            <div class="text-center mb-4">
+              <img src="{% static 'img/logo.png' %}" alt="Logo" class="img-fluid" style="width: 80px; height: 80px;">
+              <h3 class="mt-3 fw-bold" style="color: #172155;">Bem-vindo de volta</h3>
+              <p class="text-muted mb-0">Faça login para acessar sua conta</p>
+            </div>
+          </div>
+          
+          <!-- Card Body -->
+          <div class="card-body p-4 p-md-5">
+            <!-- Messages -->
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-4" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            {% endif %}
+            
+            <!-- Login Form -->
+            <form method="post" action="{% url 'login' %}" class="needs-validation" novalidate>
+              {% csrf_token %}
+              
+              <div class="mb-4">
+                <div class="form-floating">
+                  <input type="text" class="form-control rounded-3" id="username" name="username" 
+                         placeholder="Usuário" required style="height: 55px;">
+                  <label for="username" class="text-muted">
+                    <i class="fas fa-user me-2"></i>Nome de usuário
+                  </label>
+                </div>
+              </div>
+              
+              <div class="mb-4">
+                <div class="form-floating">
+                  <input type="password" class="form-control rounded-3" id="password" name="password" 
+                         placeholder="Senha" required style="height: 55px;">
+                  <label for="password" class="text-muted">
+                    <i class="fas fa-lock me-2"></i>Senha
+                  </label>
+                </div>
+              </div>
+              
+              <!-- Forgot Password -->
+              <div class="d-flex justify-content-end mb-4">
+                <a href="{% url 'password_reset' %}" class="text-decoration-none small" style="color: #FF914D;">
+                  <i class="fas fa-key me-1"></i>Esqueceu a senha?
+                </a>
+              </div>
+              
+              <!-- Submit Button -->
+              <div class="d-grid mb-4">
+                <button type="submit" class="btn btn-lg rounded-3 fw-bold text-white border-0 shadow" 
+                        style="background-color: #FF914D; height: 55px;">
+                  <i class="fas fa-sign-in-alt me-2"></i>Entrar
+                </button>
+              </div>
+            </form>
+            
+            <!-- Divider -->
+            <div class="position-relative text-center my-4">
+              <hr>
+              <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">ou</span>
+            </div>
+            
+            <!-- Register Link -->
+            <div class="text-center">
+              <p class="mb-0 text-muted">Não tem uma conta?</p>
+              <a href="{% url 'cadastro' %}" class="btn btn-outline-primary btn-lg rounded-3 mt-2 fw-bold" 
+                 style="border-color: #172155; color: #172155; width: 100%;">
+                <i class="fas fa-user-plus me-2"></i>Criar nova conta
+              </a>
+            </div>
+          </div>
+          
+          <!-- Card Footer -->
+          <div class="card-footer bg-light border-0 text-center py-4">
+            <p class="mb-0 small text-muted">
+              <i class="fas fa-shield-alt me-1" style="color: #FF914D;"></i>
+              Sua segurança é nossa prioridade
+            </p>
+          </div>
+        </div>
+        
+        <!-- Additional Info -->
+        <div class="text-center mt-4">
+          <a href="{% url 'index' %}" class="text-decoration-none text-white">
+            <i class="fas fa-arrow-left me-2"></i>Voltar para página inicial
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .card {
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .form-control {
+    border: 2px solid #e0e0e0;
+    transition: all 0.3s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #FF914D;
+    box-shadow: 0 0 0 0.25rem rgba(255, 145, 77, 0.25);
+  }
+  
+  .btn-primary:hover {
+    background-color: #172155;
+    border-color: #172155;
+  }
+  
+  .form-floating label {
+    color: #6c757d;
+  }
+  
+  .form-floating>.form-control:focus~label {
+    color: #FF914D;
+  }
+  
+  .btn-outline-primary:hover {
+    background-color: #172155;
+    color: white !important;
+  }
+</style>
+
+<script>
+  // Form validation
+  (function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()
+</script>
+{% endblock content %}

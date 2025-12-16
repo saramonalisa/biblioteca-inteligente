@@ -16,6 +16,7 @@ urlpatterns = [
     path('ver_emprestimos/', views.ver_emprestimos, name='ver_emprestimos'),
     path('gerenciar_emprestimos/', views.gerenciar_emprestimos, name='gerenciar_emprestimos'),
     path('gerenciar_livros/', views.gerenciar_livros, name='gerenciar_livros'),
+   # path('gerenciar_usuarios/', views.gerenciar_usuarios, name='gerenciar_usuarios'),
     path("ajax-messages/", views.ajax_mensagens, name="ajax_mensagens"),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path("ajax-livros/", views.ajax_livros, name="ajax_livros"),

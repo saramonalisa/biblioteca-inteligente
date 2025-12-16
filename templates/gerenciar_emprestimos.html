@@ -1,0 +1,374 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Gerenciar Empréstimos - Biblioteca Inteligente{% endblock title %}
+
+{% block menu %}{% endblock menu %}
+
+{% block content %}
+<section class="min-vh-100 py-5" style="background: linear-gradient(135deg, #172155 0%, #1a2b6d 100%);">
+  <div class="container py-4">
+    <!-- Header -->
+    <div class="row mb-5">
+      <div class="col-12">
+        <div class="d-flex align-items-center mb-4">
+          <a href="{{ request.META.HTTP_REFERER|default:'{% url "index" %}' }}" class="btn btn-outline-light rounded-circle me-3" 
+             style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-arrow-left"></i>
+          </a>
+          <div>
+            <h1 class="h2 fw-bold text-white mb-1">Gerenciar Empréstimos</h1>
+            <p class="text-white-50 mb-0">Controle de empréstimos e devoluções</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+      <div class="col-md-3 col-sm-6 mb-3">
+        <div class="card border-0 shadow-sm h-100" style="background: rgba(255, 255, 255, 0.1);">
+          <div class="card-body text-center text-white">
+            <h2 class="display-6 fw-bold mb-0">{{ emprestimos|length }}</h2>
+            <p class="mb-0 opacity-75">Total</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 mb-3">
+        <div class="card border-0 shadow-sm h-100" style="background: rgba(33, 150, 83, 0.2);">
+          <div class="card-body text-center text-white">
+            <h2 class="display-6 fw-bold mb-0">{{ devolvidos_count }}</h2>
+            <p class="mb-0 opacity-75">Devolvidos</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 mb-3">
+        <div class="card border-0 shadow-sm h-100" style="background: rgba(255, 145, 77, 0.2);">
+          <div class="card-body text-center text-white">
+            <h2 class="display-6 fw-bold mb-0">{{ pendentes_count }}</h2>
+            <p class="mb-0 opacity-75">Pendentes</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 mb-3">
+        <div class="card border-0 shadow-sm h-100" style="background: rgba(255, 77, 77, 0.2);">
+          <div class="card-body text-center text-white">
+            <h2 class="display-6 fw-bold mb-0">{{ atrasados_count }}</h2>
+            <p class="mb-0 opacity-75">Atrasados</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="card shadow-sm border-0">
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-3">
+                <select class="form-select" id="statusFilter">
+                  <option value="">Todos os status</option>
+                  <option value="pendente">Pendentes</option>
+                  <option value="devolvido">Devolvidos</option>
+                  <option value="atrasado">Atrasados</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <input type="text" class="form-control" placeholder="Buscar por livro..." id="searchInput">
+              </div>
+              <div class="col-md-3">
+                <input type="date" class="form-control" id="dateFilter">
+              </div>
+              <div class="col-md-3">
+                <button class="btn w-100 fw-bold" style="background-color: #FF914D; color: white;"> 
+                  <i class="fas fa-plus-circle me-2"></i>Novo Empréstimo
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loans Table -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+          <div class="card-body p-0">
+            {% if emprestimos %}
+              <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                  <thead class="table-light" style="background-color: rgba(255, 145, 77, 0.1);">
+                    <tr>
+                      <th scope="col" class="ps-4">
+                        <i class="fas fa-book me-2" style="color: #FF914D;"></i>Livro(s)
+                      </th>
+                      <th scope="col">
+                        <i class="fas fa-user me-2" style="color: #FF914D;"></i>Usuário
+                      </th>
+                      <th scope="col">
+                        <i class="fas fa-calendar-alt me-2" style="color: #FF914D;"></i>Empréstimo
+                      </th>
+                      <th scope="col">
+                        <i class="fas fa-calendar-check me-2" style="color: #FF914D;"></i>Devolução
+                      </th>
+                      <th scope="col" class="text-center">
+                        <i class="fas fa-info-circle me-2" style="color: #FF914D;"></i>Status
+                      </th>
+                      <th scope="col" class="text-end pe-4">
+                        <i class="fas fa-cogs me-2" style="color: #FF914D;"></i>Ações
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for emprestimo in emprestimos %}
+                    <tr class="hover-lift {% if emprestimo.devolvido %}table-success{% elif emprestimo.atrasado %}table-danger{% else %}table-warning{% endif %}">
+                      <td class="ps-4">
+                        <div class="d-flex align-items-center">
+                          <div class="book-icon me-3" style="color: #172155;">
+                            <i class="fas fa-book fa-lg"></i>
+                          </div>
+                          <div>
+                            <h6 class="mb-0 fw-bold">
+                              {% for livro in emprestimo.livro.all %}
+                                {{ livro.titulo|truncatechars:20 }}{% if not forloop.last %}, {% endif %}
+                              {% endfor %}
+                            </h6>
+                            <small class="text-muted">{{ emprestimo.livro.count }} livro(s)</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <span class="fw-medium">{{ emprestimo.usuario.username|default:"Usuário" }}</span>
+                      </td>
+                      <td>
+                        <div class="text-dark fw-medium">{{ emprestimo.data|date:"d/m/Y" }}</div>
+                        <small class="text-muted">{{ emprestimo.data|date:"H:i" }}</small>
+                      </td>
+                      <td>
+                        {% if emprestimo.data_devolucao %}
+                          <div class="text-dark fw-medium">{{ emprestimo.data_devolucao|date:"d/m/Y" }}</div>
+                          <small class="text-muted">Prevista</small>
+                        {% else %}
+                          <span class="text-muted">Não definida</span>
+                        {% endif %}
+                      </td>
+                      <td class="text-center">
+                        {% if emprestimo.devolvido %}
+                          <span class="badge bg-success rounded-pill py-2 px-3">
+                            <i class="fas fa-check-circle me-1"></i>Devolvido
+                          </span>
+                        {% elif emprestimo.atrasado %}
+                          <span class="badge bg-danger rounded-pill py-2 px-3">
+                            <i class="fas fa-exclamation-circle me-1"></i>Atrasado
+                          </span>
+                        {% else %}
+                          <span class="badge bg-warning rounded-pill py-2 px-3">
+                            <i class="fas fa-clock me-1"></i>Pendente
+                          </span>
+                        {% endif %}
+                      </td>
+                      <td class="text-end pe-4">
+                        <div class="btn-group" role="group">
+                          {% if not emprestimo.devolvido %}
+                          <a href="{% url 'editar_emprestimo' emprestimo.id %}" 
+                             class="btn btn-sm btn-outline-warning rounded-start-pill px-3" style="border-color: #FF914D; color: #FF914D;">
+                            <i class="fas fa-edit me-1"></i>Editar
+                          </a>
+                          <button class="btn btn-sm btn-outline-success px-3" onclick="registrarDevolucao({{ emprestimo.id }})">
+                            <i class="fas fa-check me-1"></i>Devolver
+                          </button>
+                          {% endif %}
+                          <a href="#" 
+                             class="btn btn-sm btn-outline-info rounded-end-pill px-3">
+                            <i class="fas fa-eye me-1"></i>Detalhes
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% else %}
+              <!-- Empty State -->
+              <div class="text-center py-5">
+                <div class="mb-4" style="color: #e0e0e0;">
+                  <i class="fas fa-exchange-alt fa-4x"></i>
+                </div>
+                <h5 class="text-muted mb-3">Nenhum empréstimo registrado</h5>
+                <p class="text-muted mb-4">Comece registrando o primeiro empréstimo</p>
+                <button class="btn btn-lg fw-bold border-0" 
+                        style="background-color: #FF914D; color: white; padding: 0.75rem 2rem; border-radius: 50px;">
+                  <i class="fas fa-plus-circle me-2"></i>Registrar Primeiro Empréstimo
+                </button>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    {% if emprestimos %}
+    <div class="row mt-4">
+      <div class="col-12">
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                <i class="fas fa-chevron-left"></i>
+              </a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  .hover-lift {
+    transition: all 0.2s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+  
+  .table > :not(caption) > * > * {
+    padding: 1rem 0.5rem;
+  }
+  
+  .book-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 145, 77, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .badge {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.75rem;
+  }
+  
+  .btn-group .btn {
+    border-radius: 0;
+  }
+  
+  .btn-group .btn:first-child {
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+  }
+  
+  .btn-group .btn:last-child {
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+  }
+  
+  .rounded-start-pill {
+    border-top-left-radius: 50px !important;
+    border-bottom-left-radius: 50px !important;
+  }
+  
+  .rounded-end-pill {
+    border-top-right-radius: 50px !important;
+    border-bottom-right-radius: 50px !important;
+  }
+  
+  .page-link {
+    color: #172155;
+    border: 1px solid #dee2e6;
+  }
+  
+  .page-item.active .page-link {
+    background-color: #FF914D;
+    border-color: #FF914D;
+  }
+  
+  .table-success {
+    background-color: rgba(33, 150, 83, 0.05) !important;
+  }
+  
+  .table-warning {
+    background-color: rgba(255, 145, 77, 0.05) !important;
+  }
+  
+  .table-danger {
+    background-color: rgba(255, 77, 77, 0.05) !important;
+  }
+</style>
+
+<script>
+  // Filter functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const statusFilter = document.getElementById('statusFilter');
+    const searchInput = document.getElementById('searchInput');
+    const dateFilter = document.getElementById('dateFilter');
+    const tableRows = document.querySelectorAll('tbody tr');
+    
+    function filterTable() {
+      const status = statusFilter.value;
+      const search = searchInput.value.toLowerCase();
+      const date = dateFilter.value;
+      
+      tableRows.forEach(row => {
+        let show = true;
+        
+        // Status filter
+        if (status) {
+          const statusCell = row.querySelector('.badge').textContent.toLowerCase();
+          if (!statusCell.includes(status)) show = false;
+        }
+        
+        // Search filter
+        if (search) {
+          const bookTitle = row.querySelector('h6').textContent.toLowerCase();
+          const userName = row.querySelectorAll('td')[1].textContent.toLowerCase();
+          if (!bookTitle.includes(search) && !userName.includes(search)) show = false;
+        }
+        
+        // Date filter
+        if (date) {
+          const loanDate = row.querySelectorAll('td')[2].textContent;
+          // Implement date comparison logic here
+        }
+        
+        row.style.display = show ? '' : 'none';
+      });
+    }
+    
+    statusFilter.addEventListener('change', filterTable);
+    searchInput.addEventListener('input', filterTable);
+    dateFilter.addEventListener('change', filterTable);
+  });
+  
+  function registrarDevolucao(emprestimoId) {
+    if (confirm('Deseja registrar a devolução deste livro?')) {
+      // Implement devolution logic here
+      alert('Devolução registrada com sucesso!');
+      // You might want to redirect or refresh the page
+      // window.location.href = `/emprestimo/${emprestimoId}/devolver/`;
+    }
+  }
+</script>
+
+{% comment %}
+Add these context variables to your view:
+context['devolvidos_count'] = emprestimos.filter(devolvido=True).count()
+context['pendentes_count'] = emprestimos.filter(devolvido=False).count()
+context['atrasados_count'] = emprestimos.filter(devolvido=False, data_devolucao__lt=datetime.date.today()).count()
+{% endcomment %}
+{% endblock content %}
